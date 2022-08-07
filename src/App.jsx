@@ -1,7 +1,13 @@
+import { Route, Routes } from "react-router-dom";
+import { Signin } from "./pages";
+
 function App() {
   return (
     <div className="App">
-      <h1>Babble</h1>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/signin" element={<Signin />} />
+      </Routes>
     </div>
   );
 }
