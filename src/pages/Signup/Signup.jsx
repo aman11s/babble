@@ -1,52 +1,57 @@
 import React, { useState } from "react";
 import {
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
   Box,
+  Button,
+  FormControlLabel,
+  TextField,
+  Checkbox,
   Typography,
   useTheme,
 } from "@mui/material";
-import { AuthHOC } from "../../components";
-import { loginHandler } from "../../features";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { AuthHOC } from "../../components";
+import { useDispatch } from "react-redux";
+import { signupHandler } from "../../features";
+import toast from "react-hot-toast";
 
-const signinFormDetails = [
+const signupFormDetails = [
   {
     id: 1,
     label: "Username",
     name: "username",
     type: "text",
   },
-
   {
     id: 2,
     label: "Password",
     name: "password",
     type: "password",
   },
+  {
+    id: 3,
+    label: "Confirm Password",
+    name: "confirmPassword",
+    type: "password",
+  },
 ];
 
 const initialFormData = {
+  firstName: "",
+  lastName: "",
   username: "",
   password: "",
-  rememberMe: false,
+  confirmPassword: "",
+  termsAndConditions: false,
 };
 
-const testCredentials = {
-  username: "aman11s",
-  password: "amansingh",
-  rememberMe: true,
-};
+const SignupForm = () => {
+  const theme = useTheme();
 
-const SigninForm = () => {
   const [formData, setFormData] = useState(initialFormData);
 
-  const dispatch = useDispatch();
+  const { password, confirmPassword } = formData;
 
-  const theme = useTheme();
+  const dispatch = useDispatch();
 
   const changeHandler = (e) => {
     setFormData((prevData) => ({
@@ -64,16 +69,43 @@ const SigninForm = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(loginHandler(formData));
+    if (password === confirmPassword) {
+      dispatch(signupHandler(formData));
+    } else {
+      toast.error("Password & Confirm password should be same");
+    }
   };
 
   return (
     <>
       <Typography component="h1" variant="h5">
-        Sign in to Babble
+        Sign up to Babble
       </Typography>
       <Box component="form" onSubmit={submitHandler} sx={{ mt: 1 }}>
-        {signinFormDetails.map(({ id, label, name, type }) => {
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <TextField
+            onChange={changeHandler}
+            margin="normal"
+            required
+            fullWidth
+            label="First Name"
+            value={formData.firstName}
+            name="firstName"
+            type="text"
+          />
+          <TextField
+            onChange={changeHandler}
+            margin="normal"
+            required
+            fullWidth
+            label="Last Name"
+            value={formData.lastName}
+            name="lastName"
+            type="text"
+          />
+        </Box>
+
+        {signupFormDetails.map(({ id, label, name, type }) => {
           return (
             <TextField
               key={id}
@@ -93,12 +125,12 @@ const SigninForm = () => {
           control={
             <Checkbox
               onChange={toggleHandler}
-              name="rememberMe"
-              checked={formData.rememberMe}
+              name="termsAndConditions"
+              checked={formData.termsAndConditions}
               color="primary"
             />
           }
-          label="Remember me"
+          label="I accept all Terms & Conditions"
         />
         <Button
           type="submit"
@@ -106,26 +138,17 @@ const SigninForm = () => {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Sign In
-        </Button>
-        <Button
-          onClick={() => setFormData(testCredentials)}
-          type="button"
-          fullWidth
-          variant="outlined"
-          sx={{ mb: 2 }}
-        >
-          Use Test Credentials
+          Sign up
         </Button>
 
-        <Link to="/signup">
+        <Link to="/signin">
           <Box
             sx={{
               color: `${theme.palette.primary.main}`,
               textAlign: "end",
             }}
           >
-            Don't have an account? Sign Up
+            Already have an account? Sign in
           </Box>
         </Link>
       </Box>
@@ -133,4 +156,4 @@ const SigninForm = () => {
   );
 };
 
-export const Signin = () => AuthHOC(SigninForm);
+export const Signup = () => AuthHOC(SignupForm);
