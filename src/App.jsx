@@ -1,10 +1,15 @@
+import { CssBaseline } from "@mui/material";
+import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
-import { RequiresAuth } from "./components";
-import { Home, Signin, Signup } from "./pages";
+import { Navbar, RequiresAuth } from "./components";
+import { Bookmark, Explore, Home, Profile, Signin, Signup } from "./pages";
 
 function App() {
   return (
     <div className="App">
+      <CssBaseline />
+      <Toaster />
+      <Navbar />
       <Routes>
         {/* Public Routes */}
         <Route path="/signin" element={<Signin />} />
@@ -13,6 +18,9 @@ function App() {
         {/* Private Rotes */}
         <Route element={<RequiresAuth />}>
           <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
+          <Route path="/bookmark" element={<Bookmark />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </div>

@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Avatar,
-  CssBaseline,
-  Paper,
-  Box,
-  Grid,
-  Typography,
-  Link,
-} from "@mui/material";
+import { Avatar, Paper, Box, Grid, Typography, Link } from "@mui/material";
 import logo from "../../logo.png";
 import coverImg from "../../assets/coverImg.svg";
 import { useSelector } from "react-redux";
@@ -45,7 +37,6 @@ export const AuthHOC = (WrappedComponent) => {
         component="main"
         sx={{ height: "100vh", overflow: "hidden" }}
       >
-        <CssBaseline />
         <Grid
           item
           xs={false}
