@@ -48,9 +48,11 @@ export const Navbar = () => {
               justifyContent: "space-between",
             }}
           >
-            <Avatar sx={{ mx: 2 }}>
-              <img src={logo} alt="logo" width="40px" />
-            </Avatar>
+            <NavLink to="/">
+              <Avatar sx={{ mx: 2 }}>
+                <img src={logo} alt="logo" width="40px" />
+              </Avatar>
+            </NavLink>
             <List sx={{ display: "flex", py: 1 }}>
               {icons.map(({ id, comp, route }) => {
                 return (
