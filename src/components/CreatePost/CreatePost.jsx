@@ -1,0 +1,60 @@
+import React from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  TextareaAutosize,
+  Typography,
+} from "@mui/material";
+import maleAvatar from "../../assets/male-avatar.png";
+import { grey } from "@mui/material/colors";
+import { CommonBox } from "../../components";
+
+export const CreatePost = () => {
+  const textareaStyle = {
+    border: "1px solid #b4b4b4",
+    borderRadius: "3px",
+    fontFamily: "inherit",
+    fontSize: "inherit",
+    padding: "1rem",
+    resize: "none",
+    width: "100%",
+  };
+
+  return (
+    <>
+      <CommonBox>
+        <Typography sx={{ pb: 2 }} variant="h6">
+          Create Post
+        </Typography>
+        <Box component="form">
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Avatar
+              sx={{
+                backgroundColor: grey[500],
+                border: `1px solid ${grey[500]}`,
+                height: 60,
+                width: 60,
+              }}
+              alt="user-avatar"
+              src={maleAvatar}
+            />
+
+            <TextareaAutosize
+              minRows={5}
+              placeholder="What's happening?"
+              style={textareaStyle}
+            />
+          </Box>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ display: "block", marginLeft: "auto", mt: 2 }}
+          >
+            Post
+          </Button>
+        </Box>
+      </CommonBox>
+    </>
+  );
+};
