@@ -38,7 +38,14 @@ export const Navbar = () => {
   if (pathname !== "/signin" && pathname !== "signup") {
     return (
       <>
-        <Box component="nav" sx={{ boxShadow: "0px 0px 10px #dedede" }}>
+        <Box
+          component="nav"
+          sx={{
+            boxShadow: "0px 0px 10px #dedede",
+            position: "sticky",
+            zIndex: 1,
+          }}
+        >
           <Box
             sx={{
               maxWidth: "1200px",
