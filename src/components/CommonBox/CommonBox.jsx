@@ -10,6 +10,7 @@ export const CommonBox = ({ children }) => {
         boxShadow: "0px 0px 5px #d2d2d2",
         maxWidth: "600px",
         mx: "auto",
+        my: 4,
         p: 3,
       }}
     >
