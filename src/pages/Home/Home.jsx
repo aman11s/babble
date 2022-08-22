@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
-import { CreatePost, Filter, Users } from "../../components";
+import { CreatePost, Filter, Posts, Users } from "../../components";
 import { grey } from "@mui/material/colors";
 
 export const Home = () => {
@@ -10,7 +10,6 @@ export const Home = () => {
         component="main"
         sx={{
           backgroundColor: grey[100],
-          height: "100vh",
           p: 2.5,
         }}
       >
@@ -18,6 +17,10 @@ export const Home = () => {
           <CreatePost />
           <Filter />
           <Users />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
         </Box>
       </Box>
     </>

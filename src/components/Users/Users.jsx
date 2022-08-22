@@ -15,7 +15,7 @@ export const Users = () => {
             sx={{ ml: "auto" }}
             variant="text"
           >
-            Hide
+            {showUsers ? "Hide" : "Show"}
           </Button>
         </Box>
         {showUsers && (
