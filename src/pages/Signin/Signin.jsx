@@ -37,7 +37,7 @@ const initialFormData = {
 
 const testCredentials = {
   username: "aman11s",
-  password: "amansingh",
+  password: "12345678",
   rememberMe: true,
 };
 
