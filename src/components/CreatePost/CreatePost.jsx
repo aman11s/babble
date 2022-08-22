@@ -6,7 +6,7 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
-import maleAvatar from "../../assets/male-avatar.png";
+import maleAvatar from "../../assets/male-avatar.jpg";
 import { grey } from "@mui/material/colors";
 import { CommonBox } from "../../components";
 
@@ -23,7 +23,7 @@ export const CreatePost = () => {
 
   return (
     <>
-      <CommonBox>
+      <CommonBox my={2}>
         <Typography sx={{ pb: 2 }} variant="h6">
           Create Post
         </Typography>
