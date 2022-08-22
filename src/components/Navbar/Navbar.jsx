@@ -4,7 +4,7 @@ import logo from "../../logo.png";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExploreRoundedIcon from "@mui/icons-material/ExploreRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
-import maleAvatar from "../../assets/male-avatar.png";
+import maleAvatar from "../../assets/male-avatar.jpg";
 import { NavLink, useLocation } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 
@@ -35,14 +35,17 @@ export const Navbar = () => {
     color: isActive ? theme.palette.primary.main : grey[600],
   });
 
-  if (pathname !== "/signin" && pathname !== "signup") {
+  if (pathname !== "/signin" && pathname !== "/signup") {
     return (
       <>
         <Box
           component="nav"
           sx={{
+            backgroundColor: "#fff",
             boxShadow: "0px 0px 10px #dedede",
             position: "sticky",
+            py: 0.5,
+            top: 0,
             zIndex: 1,
           }}
         >
