@@ -1,8 +1,7 @@
 import React from "react";
 import { Avatar, Box, Button, Typography } from "@mui/material";
-import maleAvatar from "../../assets/male-avatar.jpg";
 
-export const UserCard = () => {
+export const UserCard = ({ avatarURL, firstName, lastName }) => {
   return (
     <>
       <Box
@@ -19,14 +18,15 @@ export const UserCard = () => {
         }}
       >
         <Avatar
-          src={maleAvatar}
+          src={avatarURL}
           alt="user-dp"
           sx={{ width: "5rem", height: "5rem" }}
         />
-        <Typography sx={{ pt: 2 }} variant="body1">
-          Aman Singh
+        <Typography sx={{ py: 2, textAlign: "center" }} variant="body1">
+          <Box component="span">{firstName}</Box>{" "}
+          <Box component="span">{lastName}</Box>
         </Typography>
-        <Button sx={{ my: 1 }} variant="contained">
+        <Button sx={{ mt: "auto" }} variant="contained">
           Follow
         </Button>
       </Box>
