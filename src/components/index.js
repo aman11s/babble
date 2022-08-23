@@ -1,4 +1,4 @@
-export { AuthHOC } from "./AuthHOC/AuthHOC";
+export { Auth } from "./Auth/Auth";
 export { RequiresAuth } from "./RequiresAuth/RequiresAuth";
 export { Navbar } from "./Navbar/Navbar";
 export { CreatePost } from "./CreatePost/CreatePost";

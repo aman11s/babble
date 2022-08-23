@@ -23,7 +23,7 @@ const Copyright = (props) => {
   );
 };
 
-export const AuthHOC = (WrappedComponent) => {
+export const Auth = ({ children }) => {
   const {
     userData: { token },
   } = useSelector((store) => store.auth);
@@ -66,7 +66,9 @@ export const AuthHOC = (WrappedComponent) => {
             <Avatar sx={{ m: 1 }}>
               <img src={logo} alt="logo" width="40px" />
             </Avatar>
-            <WrappedComponent />
+
+            {children}
+
             <Copyright sx={{ mt: 5 }} />
           </Box>
         </Grid>
