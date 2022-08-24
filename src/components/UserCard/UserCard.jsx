@@ -1,7 +1,19 @@
 import React from "react";
 import { Avatar, Box, Button, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { followHandler } from "../../features";
 
-export const UserCard = ({ avatarURL, firstName, lastName, username }) => {
+export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
+  const dispatch = useDispatch();
+
+  const {
+    userData: { token },
+  } = useSelector((store) => store.auth);
+
+  const followUnfollowHandle = () => {
+    dispatch(followHandler({ followUserId: _id, token }));
+  };
+
   return (
     <>
       <Box
@@ -31,7 +43,11 @@ export const UserCard = ({ avatarURL, firstName, lastName, username }) => {
             @{username}
           </Typography>
         </Box>
-        <Button sx={{ mt: "auto" }} variant="contained">
+        <Button
+          onClick={followUnfollowHandle}
+          sx={{ mt: "auto" }}
+          variant="contained"
+        >
           Follow
         </Button>
       </Box>
