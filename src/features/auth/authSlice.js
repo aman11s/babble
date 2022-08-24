@@ -76,6 +76,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    // Login Handler
     [loginHandler.pending]: (state) => {
       state.status = "pending";
     },
@@ -87,6 +88,8 @@ export const authSlice = createSlice({
     [loginHandler.rejected]: (state) => {
       state.status = "rejected";
     },
+
+    // Signup Handler
     [signupHandler.pending]: (state) => {
       state.status = "pending";
     },
