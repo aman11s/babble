@@ -3,11 +3,16 @@ import { Box, Button, Typography } from "@mui/material";
 import { UserCard } from "../../components";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const Users = () => {
   const [showUsers, setShowUsers] = useState(true);
   const [users, setUsers] = useState([]);
   const [loader, setLoader] = useState(false);
+
+  const {
+    userData: { user },
+  } = useSelector((store) => store.auth);
 
   useEffect(() => {
     (async () => {
@@ -32,6 +37,10 @@ export const Users = () => {
     marginLeft: "auto",
     marginRight: "auto",
   };
+
+  const filteredUsers = users.filter(
+    ({ username }) => username !== user.username
+  );
 
   return (
     <>
@@ -63,7 +72,7 @@ export const Users = () => {
                 size={30}
               />
             ) : (
-              users.map((user) => {
+              filteredUsers.map((user) => {
                 return <UserCard key={user.id} {...user} />;
               })
             )}
