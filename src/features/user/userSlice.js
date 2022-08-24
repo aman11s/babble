@@ -5,13 +5,16 @@ export const followHandler = createAsyncThunk(
   "user/followHandler",
   async ({ followUserId, token }, { rejectWithValue }) => {
     try {
-      const res = await axios({
+      const { data, status } = await axios({
         method: "POST",
         url: `/api/users/follow/${followUserId}`,
         headers: { authorization: token },
         data: {},
       });
-      console.log(res);
+      if (status === 200) {
+        const { user } = data;
+        return { following: user.following };
+      }
     } catch (e) {
       console.error(e);
       return rejectWithValue(e);
@@ -28,6 +31,16 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
+  extraReducers: {
+    // Follow Handler
+    [followHandler.pending]: (state) => {
+      state.status = "pending";
+    },
+    [followHandler.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.user.following = payload.following;
+    },
+  },
 });
 
 export default userSlice.reducer;

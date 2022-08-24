@@ -12,7 +12,6 @@ export const loginHandler = createAsyncThunk(
         data: { username, password },
       });
       if (status === 200) {
-        console.log(data);
         const {
           encodedToken,
           foundUser: { username, firstName, lastName, followers, following },

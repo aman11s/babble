@@ -14,6 +14,10 @@ export const Users = () => {
     userData: { user },
   } = useSelector((store) => store.auth);
 
+  const { user: newUser } = useSelector((store) => store.user);
+
+  console.log(newUser);
+
   useEffect(() => {
     (async () => {
       try {
