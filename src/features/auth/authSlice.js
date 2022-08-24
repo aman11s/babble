@@ -12,14 +12,15 @@ export const loginHandler = createAsyncThunk(
         data: { username, password },
       });
       if (status === 200) {
+        console.log(data);
         const {
           encodedToken,
-          foundUser: { username, firstName, lastName },
+          foundUser: { username, firstName, lastName, followers, following },
         } = data;
         return {
           userData: {
             token: encodedToken,
-            user: { username, firstName, lastName },
+            user: { username, firstName, lastName, followers, following },
           },
         };
       }
@@ -47,12 +48,12 @@ export const signupHandler = createAsyncThunk(
       if (status === 201) {
         const {
           encodedToken,
-          createdUser: { username, firstName, lastName },
+          createdUser: { username, firstName, lastName, followers, following },
         } = data;
         return {
           userData: {
             token: encodedToken,
-            user: { username, firstName, lastName },
+            user: { username, firstName, lastName, followers, following },
           },
         };
       }
