@@ -24,7 +24,7 @@ export const Posts = () => {
               Aman Singh
             </Typography>
             <Typography sx={{ color: "text.secondary" }} variant="body2">
-              aman11s
+              @aman11s
             </Typography>
           </Box>
         </Box>

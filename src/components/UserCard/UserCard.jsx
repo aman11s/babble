@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 
-export const UserCard = ({ avatarURL, firstName, lastName }) => {
+export const UserCard = ({ avatarURL, firstName, lastName, username }) => {
   return (
     <>
       <Box
@@ -22,10 +22,15 @@ export const UserCard = ({ avatarURL, firstName, lastName }) => {
           alt="user-dp"
           sx={{ width: "5rem", height: "5rem" }}
         />
-        <Typography sx={{ py: 2, textAlign: "center" }} variant="body1">
-          <Box component="span">{firstName}</Box>{" "}
-          <Box component="span">{lastName}</Box>
-        </Typography>
+        <Box sx={{ py: 2, textAlign: "center" }}>
+          <Typography variant="body1">
+            <Box component="span">{firstName}</Box>{" "}
+            <Box component="span">{lastName}</Box>
+          </Typography>
+          <Typography sx={{ color: "text.secondary" }} variant="body2">
+            @{username}
+          </Typography>
+        </Box>
         <Button sx={{ mt: "auto" }} variant="contained">
           Follow
         </Button>
