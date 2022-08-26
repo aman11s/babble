@@ -1,18 +1,38 @@
-import React from "react";
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Avatar, Box, Typography } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useDispatch, useSelector } from "react-redux";
 import { followHandler } from "../../features";
+import { isAlreadyFollowing } from "../../utils";
+import { useCustomToast } from "../../hooks";
 
 export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
   const dispatch = useDispatch();
+  const customToast = useCustomToast();
+
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const {
     userData: { token },
   } = useSelector((store) => store.auth);
 
-  const followUnfollowHandle = () => {
-    dispatch(followHandler({ followUserId: _id, token }));
+  const { user } = useSelector((store) => store.user);
+
+  const followUnfollowHandle = async () => {
+    try {
+      setDisableBtn(true);
+      const { meta, payload } = await dispatch(
+        followHandler({ followUserId: _id, token })
+      );
+      customToast(meta.requestStatus, payload.message);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDisableBtn(false);
+    }
   };
+
+  const isFollowed = isAlreadyFollowing(user, username);
 
   return (
     <>
@@ -43,13 +63,14 @@ export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
             @{username}
           </Typography>
         </Box>
-        <Button
+        <LoadingButton
           onClick={followUnfollowHandle}
+          loading={disableBtn}
           sx={{ mt: "auto" }}
-          variant="contained"
+          variant={isFollowed ? "outlined" : "contained"}
         >
-          Follow
-        </Button>
+          {isFollowed ? "Unfollow" : "Follow"}
+        </LoadingButton>
       </Box>
     </>
   );
