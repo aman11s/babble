@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Box, Button, Typography } from "@mui/material";
 import { UserCard } from "../../components";
 import { ClipLoader } from "react-spinners";
-import axios from "axios";
 import { useSelector } from "react-redux";
 
 export const Users = () => {
@@ -10,13 +10,7 @@ export const Users = () => {
   const [users, setUsers] = useState([]);
   const [loader, setLoader] = useState(false);
 
-  const {
-    userData: { user },
-  } = useSelector((store) => store.auth);
-
-  const { user: newUser } = useSelector((store) => store.user);
-
-  console.log(newUser);
+  const { userData } = useSelector((store) => store.auth);
 
   useEffect(() => {
     (async () => {
@@ -43,7 +37,7 @@ export const Users = () => {
   };
 
   const filteredUsers = users.filter(
-    ({ username }) => username !== user.username
+    ({ username }) => username !== userData?.user.username
   );
 
   return (
