@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { loginHandler } from "../auth/authSlice";
 
 export const followHandler = createAsyncThunk(
   "user/followHandler",
@@ -13,11 +14,10 @@ export const followHandler = createAsyncThunk(
       });
       if (status === 200) {
         const { user } = data;
-        return { following: user.following };
+        return { following: user.following, message: "Successfully followed" };
       }
     } catch (e) {
-      console.error(e);
-      return rejectWithValue(e);
+      return rejectWithValue({ message: "Failed to follow" });
     }
   }
 );
@@ -32,6 +32,11 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    // Consume user from auth actions
+    [loginHandler.fulfilled]: (state, { payload }) => {
+      state.user = payload.userData.user;
+    },
+
     // Follow Handler
     [followHandler.pending]: (state) => {
       state.status = "pending";
