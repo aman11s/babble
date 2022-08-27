@@ -9,20 +9,73 @@ import { formatDate } from "../utils/authUtils";
 export const posts = [
   {
     _id: uuid(),
-    content:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+    firstName: "Tanay",
+    lastName: "Pratap",
+    username: "tanaypratap",
+    avatarURL:
+      "https://pbs.twimg.com/profile_images/1501178147420585987/5_2plEJW_400x400.jpg",
+    content: `Learn JavaScript in 60 minutes and then spend 9 months finding job. 
+
+      Better to spend time on basics, build core and then find a job. 
+      
+      12 months is the least you should spend from your first program to job.`,
     likes: {
-      likeCount: 0,
+      likeCount: 10,
       likedBy: [],
       dislikedBy: [],
     },
-    username: "adarshbalika",
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
+
     comments: [
       {
         _id: uuid(),
-        username: "shubhamsoni",
+        firstName: "Aman",
+        lastName: "Singh",
+        username: "aman11s",
+        avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
+        text: "Damn! I love this mentality.",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+      {
+        _id: uuid(),
+        firstName: "Soham",
+        lastName: "Shah",
+        username: "sohamshah",
+        avatarURL:
+          "https://pbs.twimg.com/profile_images/1481869646018265088/SgTPHx3S_400x400.jpg",
+        text: "True 💯",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+  },
+  {
+    _id: uuid(),
+    firstName: "Akanksha",
+    lastName: "Choudhary",
+    username: "ch_akanksha",
+    avatarURL:
+      "https://pbs.twimg.com/profile_images/1085823173419880448/oDNqP1T3_400x400.jpg",
+    content:
+      "Don't hate errors and bugs. They're not your enemies. It's a part of your programming journey. See errors and bugs as a sign that you're pushing your boundaries. It shows growth.",
+    likes: {
+      likeCount: 15,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    comments: [
+      {
+        _id: uuid(),
+        firstName: "Sourabh",
+        lastName: "Kheraliya",
+        username: "sk02k1",
+        avatarURL: "https://avatars.githubusercontent.com/u/55895224?v=4",
         text: "Interesting",
         votes: {
           upvotedBy: [],
@@ -31,7 +84,10 @@ export const posts = [
       },
       {
         _id: uuid(),
-        username: "sohamshah",
+        firstName: "Aman",
+        lastName: "Singh",
+        username: "aman11s",
+        avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
         text: "Wow!",
         votes: {
           upvotedBy: [],
@@ -39,23 +95,31 @@ export const posts = [
         },
       },
     ],
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
   },
   {
     _id: uuid(),
-    content:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+    firstName: "Aman",
+    lastName: "Singh",
+    username: "aman11s",
+    avatarURL:
+      "https://pbs.twimg.com/profile_images/1085823173419880448/oDNqP1T3_400x400.jpg",
+    content: `Hey everyone, I'm Aman a Frontend Developer from Bangalore, India.
+      My portfolio Link : https://amansingh.vercel.app`,
     likes: {
-      likeCount: 0,
+      likeCount: 12,
       likedBy: [],
       dislikedBy: [],
     },
-    username: "shubhamsoni",
-
     comments: [
       {
         _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
+        firstName: "Sourabh",
+        lastName: "Kheraliya",
+        username: "sk02k1",
+        avatarURL: "https://avatars.githubusercontent.com/u/55895224?v=4",
+        text: "Let's Connect!",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -63,8 +127,43 @@ export const posts = [
       },
       {
         _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
+        firstName: "Chirag",
+        lastName: "Gupta",
+        username: "hardiegogo",
+        avatarURL:
+          "https://res.cloudinary.com/dqqehaaqo/image/upload/v1656880084/mircle/profile_pic_clyjaw.jpg",
+        text: "Hey Aman, nice to know about you.",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+  },
+  {
+    _id: uuid(),
+    firstName: "Aman",
+    lastName: "Singh",
+    username: "aman11s",
+    avatarURL:
+      "https://pbs.twimg.com/profile_images/1085823173419880448/oDNqP1T3_400x400.jpg",
+    content: "Nothing can beat the joy of seeing live users on your website.",
+    likes: {
+      likeCount: 8,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    comments: [
+      {
+        _id: uuid(),
+        firstName: "Chirag",
+        lastName: "Gupta",
+        username: "hardiegogo",
+        avatarURL:
+          "https://res.cloudinary.com/dqqehaaqo/image/upload/v1656880084/mircle/profile_pic_clyjaw.jpg",
+        text: "Yeah you are right!",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
