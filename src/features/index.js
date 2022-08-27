@@ -1,2 +1,2 @@
 export { loginHandler, signupHandler } from "./auth/authSlice";
-export { followHandler } from "./user/userSlice";
+export { followHandler, unfollowHandler } from "./user/userSlice";

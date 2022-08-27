@@ -14,10 +14,30 @@ export const followHandler = createAsyncThunk(
       });
       if (status === 200) {
         const { user } = data;
-        return { following: user.following, message: "Successfully followed" };
+        return { follow: user.following, message: "Successfully followed" };
       }
     } catch (e) {
       return rejectWithValue({ message: "Failed to follow" });
+    }
+  }
+);
+
+export const unfollowHandler = createAsyncThunk(
+  "user/unfollowHandler",
+  async ({ followUserId, token }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "POST",
+        url: `/api/users/unfollow/${followUserId}`,
+        headers: { authorization: token },
+        data: {},
+      });
+      if (status === 200) {
+        const { user } = data;
+        return { unfollow: user.following, message: "Successfully unfollowed" };
+      }
+    } catch (e) {
+      return rejectWithValue({ message: "Failed to unfollow" });
     }
   }
 );
@@ -43,7 +63,19 @@ export const userSlice = createSlice({
     },
     [followHandler.fulfilled]: (state, { payload }) => {
       state.status = "fulfilled";
-      state.user.following = payload.following;
+      state.user.following = payload.follow;
+    },
+
+    // Unfollow Handler
+    [unfollowHandler.pending]: (state) => {
+      state.status = "pending";
+    },
+    [unfollowHandler.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.user.following = payload.unfollow;
+    },
+    [unfollowHandler.rejected]: (state) => {
+      state.status = "rejected";
     },
   },
 });

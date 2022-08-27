@@ -6,8 +6,8 @@ const status = {
 };
 
 export const useCustomToast = () => {
-  const customToast = (requestStatus, message) => {
-    toast[status[requestStatus]](message);
+  const customToast = (meta, payload) => {
+    toast[status[meta.requestStatus]](payload.message);
   };
 
   return customToast;
