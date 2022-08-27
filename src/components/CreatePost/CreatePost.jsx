@@ -6,9 +6,9 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
-import maleAvatar from "../../assets/male-avatar.jpg";
 import { grey } from "@mui/material/colors";
 import { CommonBox } from "../../components";
+import { useSelector } from "react-redux";
 
 export const CreatePost = () => {
   const textareaStyle = {
@@ -20,6 +20,8 @@ export const CreatePost = () => {
     resize: "none",
     width: "100%",
   };
+
+  const { user } = useSelector((store) => store.user);
 
   return (
     <>
@@ -37,7 +39,7 @@ export const CreatePost = () => {
                 width: 60,
               }}
               alt="user-avatar"
-              src={maleAvatar}
+              src={user.avatarURL}
             />
 
             <TextareaAutosize

@@ -4,9 +4,9 @@ import logo from "../../logo.png";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExploreRoundedIcon from "@mui/icons-material/ExploreRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
-import maleAvatar from "../../assets/male-avatar.jpg";
 import { NavLink, useLocation } from "react-router-dom";
 import { grey } from "@mui/material/colors";
+import { useSelector } from "react-redux";
 
 const icons = [
   {
@@ -29,6 +29,7 @@ const icons = [
 export const Navbar = () => {
   const theme = useTheme();
   const { pathname } = useLocation();
+  const { user } = useSelector((store) => store.user);
 
   const getActiveStyle = ({ isActive }) => ({
     textDecoration: "none",
@@ -77,7 +78,7 @@ export const Navbar = () => {
                 <NavLink to="/profile">
                   <Avatar
                     alt="user-icon"
-                    src={maleAvatar}
+                    src={user.avatarURL}
                     sx={{ width: 45, height: 45 }}
                   />
                 </NavLink>
