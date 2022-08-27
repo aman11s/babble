@@ -14,11 +14,8 @@ export const posts = [
     username: "tanaypratap",
     avatarURL:
       "https://pbs.twimg.com/profile_images/1501178147420585987/5_2plEJW_400x400.jpg",
-    content: `Learn JavaScript in 60 minutes and then spend 9 months finding job. 
-
-      Better to spend time on basics, build core and then find a job. 
-      
-      12 months is the least you should spend from your first program to job.`,
+    content:
+      "Learn JavaScript in 60 minutes and then spend 9 months finding job. Better to spend time on basics, build core and then find a job. 12 months is the least you should spend from your first program to job.",
     likes: {
       likeCount: 10,
       likedBy: [],
@@ -31,7 +28,7 @@ export const posts = [
         firstName: "Aman",
         lastName: "Singh",
         username: "aman11s",
-        avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
+        avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
         text: "Damn! I love this mentality.",
         votes: {
           upvotedBy: [],
@@ -87,7 +84,7 @@ export const posts = [
         firstName: "Aman",
         lastName: "Singh",
         username: "aman11s",
-        avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
+        avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
         text: "Wow!",
         votes: {
           upvotedBy: [],
@@ -103,9 +100,9 @@ export const posts = [
     firstName: "Aman",
     lastName: "Singh",
     username: "aman11s",
-    avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
-    content: `Hey everyone, I'm Aman a Frontend Developer from Bangalore, India.
-      My portfolio Link : https://amansingh.vercel.app`,
+    avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
+    content:
+      "Hey everyone, I'm Aman a Frontend Developer from Bangalore, India. My portfolio Link : https://amansingh.vercel.app",
     likes: {
       likeCount: 12,
       likedBy: [],
@@ -146,7 +143,7 @@ export const posts = [
     firstName: "Aman",
     lastName: "Singh",
     username: "aman11s",
-    avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
+    avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
     content: "Nothing can beat the joy of seeing live users on your website.",
     likes: {
       likeCount: 8,

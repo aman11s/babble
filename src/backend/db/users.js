@@ -12,7 +12,7 @@ export const users = [
     lastName: "Singh",
     username: "aman11s",
     password: "12345678",
-    avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
+    avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
     bio: "Front End Developer | ReactJS | Redux | JavaScript",
     websiteLink: "https://amansingh.netlify.app/",
     createdAt: formatDate(),
