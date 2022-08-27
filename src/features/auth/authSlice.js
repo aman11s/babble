@@ -14,12 +14,26 @@ export const loginHandler = createAsyncThunk(
       if (status === 200) {
         const {
           encodedToken,
-          foundUser: { username, firstName, lastName, followers, following },
+          foundUser: {
+            username,
+            firstName,
+            lastName,
+            followers,
+            following,
+            avatarURL,
+          },
         } = data;
         return {
           userData: {
             token: encodedToken,
-            user: { username, firstName, lastName, followers, following },
+            user: {
+              username,
+              firstName,
+              lastName,
+              followers,
+              following,
+              avatarURL,
+            },
           },
         };
       }
@@ -47,12 +61,26 @@ export const signupHandler = createAsyncThunk(
       if (status === 201) {
         const {
           encodedToken,
-          createdUser: { username, firstName, lastName, followers, following },
+          createdUser: {
+            username,
+            firstName,
+            lastName,
+            followers,
+            following,
+            avatarURL,
+          },
         } = data;
         return {
           userData: {
             token: encodedToken,
-            user: { username, firstName, lastName, followers, following },
+            user: {
+              username,
+              firstName,
+              lastName,
+              followers,
+              following,
+              avatarURL,
+            },
           },
         };
       }
