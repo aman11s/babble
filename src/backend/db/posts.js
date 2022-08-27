@@ -103,8 +103,7 @@ export const posts = [
     firstName: "Aman",
     lastName: "Singh",
     username: "aman11s",
-    avatarURL:
-      "https://pbs.twimg.com/profile_images/1085823173419880448/oDNqP1T3_400x400.jpg",
+    avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
     content: `Hey everyone, I'm Aman a Frontend Developer from Bangalore, India.
       My portfolio Link : https://amansingh.vercel.app`,
     likes: {
@@ -147,8 +146,7 @@ export const posts = [
     firstName: "Aman",
     lastName: "Singh",
     username: "aman11s",
-    avatarURL:
-      "https://pbs.twimg.com/profile_images/1085823173419880448/oDNqP1T3_400x400.jpg",
+    avatarURL: "https://amansingh.netlify.app/assets/images/my-avatar.png",
     content: "Nothing can beat the joy of seeing live users on your website.",
     likes: {
       likeCount: 8,
