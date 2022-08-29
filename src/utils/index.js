@@ -1,1 +1,1 @@
-export { isAlreadyFollowing } from "./utils";
+export { isAlreadyFollowing, getTime } from "./utils";

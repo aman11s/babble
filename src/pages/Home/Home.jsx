@@ -18,9 +18,6 @@ export const Home = () => {
           <Filter />
           <Users />
           <Posts />
-          <Posts />
-          <Posts />
-          <Posts />
         </Box>
       </Box>
     </>
