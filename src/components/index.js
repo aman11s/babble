@@ -7,3 +7,4 @@ export { Filter } from "./Filter/Filter";
 export { Users } from "./Users/Users";
 export { UserCard } from "./UserCard/UserCard";
 export { Posts } from "./Posts/Posts";
+export { PostCard } from "./PostCard/PostCard";
