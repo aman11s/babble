@@ -8,3 +8,4 @@ export { Users } from "./Users/Users";
 export { UserCard } from "./UserCard/UserCard";
 export { Posts } from "./Posts/Posts";
 export { PostCard } from "./PostCard/PostCard";
+export { EditPostModal } from "./EditPostModal/EditPostModal";

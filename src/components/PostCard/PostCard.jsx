@@ -12,11 +12,13 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
+import { useSelector } from "react-redux";
 import { CommonBox } from "../CommonBox/CommonBox";
 import { getTime } from "../../utils";
-import { useSelector } from "react-redux";
+import { EditPostModal } from "../EditPostModal/EditPostModal";
 
 export const PostCard = ({
+  _id,
   avatarURL,
   firstName,
   lastName,
@@ -29,9 +31,19 @@ export const PostCard = ({
   const { likeCount } = likes;
   const time = getTime(createdAt);
 
-  const { user } = useSelector((store) => store.user);
+  const {
+    userData: { user },
+  } = useSelector((store) => store.auth);
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuActive, setMenuActive] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+
+  const closeEditModal = () => setOpenEditModal(false);
+
+  const editPostModalHandler = () => {
+    setMenuActive(false);
+    setOpenEditModal(true);
+  };
 
   return (
     <>
@@ -57,21 +69,29 @@ export const PostCard = ({
           {user.username === username && (
             <Box sx={{ ml: "auto", position: "relative" }}>
               <IconButton
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label="comment"
+                onClick={() => setMenuActive(!menuActive)}
+                aria-label="menu"
               >
                 <MoreVertRoundedIcon />
               </IconButton>
-              {menuOpen && (
+              {menuActive && (
                 <Paper
                   sx={{ position: "absolute", top: "2.5rem", right: "-2rem" }}
                   elevation={2}
                 >
                   <MenuList>
-                    <MenuItem>Edit</MenuItem>
+                    <MenuItem onClick={editPostModalHandler}>Edit</MenuItem>
                     <MenuItem sx={{ color: "red" }}>Delete</MenuItem>
                   </MenuList>
                 </Paper>
+              )}
+              {openEditModal && (
+                <EditPostModal
+                  openEditModal={openEditModal}
+                  closeEditModal={closeEditModal}
+                  content={content}
+                  postId={_id}
+                />
               )}
             </Box>
           )}

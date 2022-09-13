@@ -39,6 +39,26 @@ export const createPost = createAsyncThunk(
   }
 );
 
+export const editPost = createAsyncThunk(
+  "post/editPost",
+  async ({ token, postId, postData }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "POST",
+        url: `/api/posts/edit/${postId}`,
+        headers: { authorization: token },
+        data: { postData },
+      });
+      if (status === 201) {
+        return { posts: data.posts, message: "Post edited successfully" };
+      }
+    } catch (e) {
+      console.error(e);
+      return rejectWithValue({ message: "Failed to edit post" });
+    }
+  }
+);
+
 const initialState = {
   posts: [],
   status: "idle",
@@ -70,6 +90,18 @@ export const postSlice = createSlice({
       state.posts = payload.posts;
     },
     [createPost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Edit Post
+    [editPost.pending]: (state) => {
+      state.status = "pending";
+    },
+    [editPost.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.posts = payload.posts;
+    },
+    [editPost.rejected]: (state) => {
       state.status = "rejected";
     },
   },
