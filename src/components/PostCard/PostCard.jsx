@@ -12,28 +12,33 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CommonBox } from "../CommonBox/CommonBox";
 import { getTime } from "../../utils";
 import { EditPostModal } from "../EditPostModal/EditPostModal";
+import { deletePost } from "../../features";
+import { useCustomToast } from "../../hooks";
 
-export const PostCard = ({
-  _id,
-  avatarURL,
-  firstName,
-  lastName,
-  username,
-  content,
-  likes,
-  comments,
-  createdAt,
-}) => {
-  const { likeCount } = likes;
+export const PostCard = ({ post }) => {
+  const {
+    _id,
+    avatarURL,
+    firstName,
+    lastName,
+    username,
+    content,
+    likes: { likeCount },
+    comments,
+    createdAt,
+  } = post;
+
   const time = getTime(createdAt);
 
   const {
-    userData: { user },
+    userData: { user, token },
   } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const customToast = useCustomToast();
 
   const [menuActive, setMenuActive] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -43,6 +48,17 @@ export const PostCard = ({
   const editPostModalHandler = () => {
     setMenuActive(false);
     setOpenEditModal(true);
+  };
+
+  const deletePostHandler = async () => {
+    try {
+      const { meta, payload } = await dispatch(
+        deletePost({ postId: _id, token })
+      );
+      customToast(meta, payload);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -81,7 +97,9 @@ export const PostCard = ({
                 >
                   <MenuList>
                     <MenuItem onClick={editPostModalHandler}>Edit</MenuItem>
-                    <MenuItem sx={{ color: "red" }}>Delete</MenuItem>
+                    <MenuItem onClick={deletePostHandler} sx={{ color: "red" }}>
+                      Delete
+                    </MenuItem>
                   </MenuList>
                 </Paper>
               )}

@@ -30,7 +30,7 @@ export const createPost = createAsyncThunk(
         data: { postData },
       });
       if (status === 201) {
-        return { posts: data.posts, message: "Posted Successfully" };
+        return { createPost: data.posts, message: "Posted Successfully" };
       }
     } catch (e) {
       console.error(e);
@@ -50,11 +50,30 @@ export const editPost = createAsyncThunk(
         data: { postData },
       });
       if (status === 201) {
-        return { posts: data.posts, message: "Post edited successfully" };
+        return { editPost: data.posts, message: "Post edited successfully" };
       }
     } catch (e) {
       console.error(e);
       return rejectWithValue({ message: "Failed to edit post" });
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "post/deletePost",
+  async ({ postId, token }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "DELETE",
+        url: `/api/posts/${postId}`,
+        headers: { authorization: token },
+      });
+      if (status === 201) {
+        return { deletePost: data.posts, message: "Post deleted successfully" };
+      }
+    } catch (e) {
+      console.error(e);
+      return rejectWithValue({ message: "Failed to delete post" });
     }
   }
 );
@@ -87,7 +106,7 @@ export const postSlice = createSlice({
     },
     [createPost.fulfilled]: (state, { payload }) => {
       state.status = "fulfilled";
-      state.posts = payload.posts;
+      state.posts = payload.createPost;
     },
     [createPost.rejected]: (state) => {
       state.status = "rejected";
@@ -99,9 +118,21 @@ export const postSlice = createSlice({
     },
     [editPost.fulfilled]: (state, { payload }) => {
       state.status = "fulfilled";
-      state.posts = payload.posts;
+      state.posts = payload.editPost;
     },
     [editPost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Delete Post
+    [deletePost.pending]: (state) => {
+      state.status = "pending";
+    },
+    [deletePost.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.posts = payload.deletePost;
+    },
+    [deletePost.rejected]: (state) => {
       state.status = "rejected";
     },
   },

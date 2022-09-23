@@ -15,7 +15,7 @@ export const Posts = () => {
   return (
     <>
       {posts.map((post) => {
-        return <PostCard key={post.id} {...post} />;
+        return <PostCard key={post.id} post={post} />;
       })}
     </>
   );
