@@ -5,4 +5,5 @@ export {
   createPost,
   editPost,
   deletePost,
+  sortByHandler,
 } from "./post/postSlice";

@@ -81,12 +81,17 @@ export const deletePost = createAsyncThunk(
 const initialState = {
   posts: [],
   status: "idle",
+  sortBy: "Latest",
 };
 
 export const postSlice = createSlice({
   name: "post",
   initialState,
-  reducers: {},
+  reducers: {
+    sortByHandler: (state, { payload }) => {
+      state.sortBy = payload;
+    },
+  },
   extraReducers: {
     // All posts
     [getAllPosts.pending]: (state) => {
@@ -139,3 +144,4 @@ export const postSlice = createSlice({
 });
 
 export default postSlice.reducer;
+export const { sortByHandler } = postSlice.actions;

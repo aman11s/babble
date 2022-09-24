@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const isAlreadyFollowing = (loggedUser, currUser) => {
   const followingUsernames = loggedUser.following.map(
     ({ username }) => username
@@ -60,4 +62,26 @@ export const getTime = (timeStamp) => {
   } · ${month} ${date}, ${year}`;
 
   return time;
+};
+
+export const getSortedPosts = (allPosts, sortState) => {
+  switch (sortState) {
+    case "Latest":
+      return [...allPosts].sort(
+        (a, b) => dayjs(b?.createdAt) - dayjs(a?.createdAt)
+      );
+
+    case "Oldest":
+      return [...allPosts].sort(
+        (a, b) => dayjs(a?.createdAt) - dayjs(b?.createdAt)
+      );
+
+    case "Trending":
+      return [...allPosts].sort(
+        (a, b) => b?.likes.likeCount - a?.likes.likeCount
+      );
+
+    default:
+      return allPosts;
+  }
 };

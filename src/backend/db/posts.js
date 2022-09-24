@@ -1,5 +1,4 @@
 import { v4 as uuid } from "uuid";
-import { formatDate } from "../utils/authUtils";
 
 /**
  * Posts can be added here.
@@ -16,6 +15,8 @@ export const posts = [
       "https://pbs.twimg.com/profile_images/1501178147420585987/5_2plEJW_400x400.jpg",
     content:
       "Learn JavaScript in 60 minutes and then spend 9 months finding job. Better to spend time on basics, build core and then find a job. 12 months is the least you should spend from your first program to job.",
+    createdAt: "2022-05-15T12:26:03+05:30",
+    updatedAt: "2022-05-15T12:26:03+05:30",
     likes: {
       likeCount: 10,
       likedBy: [],
@@ -49,8 +50,6 @@ export const posts = [
         },
       },
     ],
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
   },
   {
     _id: uuid(),
@@ -61,6 +60,8 @@ export const posts = [
       "https://pbs.twimg.com/profile_images/1085823173419880448/oDNqP1T3_400x400.jpg",
     content:
       "Don't hate errors and bugs. They're not your enemies. It's a part of your programming journey. See errors and bugs as a sign that you're pushing your boundaries. It shows growth.",
+    createdAt: "2022-08-10T14:45:03+05:30",
+    updatedAt: "2022-08-10T14:45:03+05:30",
     likes: {
       likeCount: 15,
       likedBy: [],
@@ -92,8 +93,6 @@ export const posts = [
         },
       },
     ],
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
   },
   {
     _id: uuid(),
@@ -103,6 +102,8 @@ export const posts = [
     avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
     content:
       "Hey everyone, I'm Aman a Frontend Developer from Bangalore, India. My portfolio Link : https://amansingh.vercel.app",
+    createdAt: "2022-09-22T09:30:03+05:30",
+    updatedAt: "2022-09-22T09:30:03+05:30",
     likes: {
       likeCount: 12,
       likedBy: [],
@@ -135,8 +136,6 @@ export const posts = [
         },
       },
     ],
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
   },
   {
     _id: uuid(),
@@ -150,6 +149,8 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
+    createdAt: "2022-09-20T10:00:03+05:30",
+    updatedAt: "2022-09-20T10:00:03+05:30",
     comments: [
       {
         _id: uuid(),
@@ -165,7 +166,5 @@ export const posts = [
         },
       },
     ],
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
   },
 ];
