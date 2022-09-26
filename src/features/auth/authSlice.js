@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 
 export const loginHandler = createAsyncThunk(
   "auth/loginHandler",
@@ -102,7 +103,14 @@ const initialState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutHandler: (state) => {
+      state.userData = {};
+      localStorage.removeItem("userData");
+      toast.success("Logout Successfully");
+      <Navigate to="/signin" replace={true} />;
+    },
+  },
   extraReducers: {
     // Login Handler
     [loginHandler.pending]: (state) => {
@@ -133,3 +141,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const { logoutHandler } = authSlice.actions;
