@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 
 export const loginHandler = createAsyncThunk(
   "auth/loginHandler",
@@ -14,12 +15,26 @@ export const loginHandler = createAsyncThunk(
       if (status === 200) {
         const {
           encodedToken,
-          foundUser: { username, firstName, lastName },
+          foundUser: {
+            username,
+            firstName,
+            lastName,
+            followers,
+            following,
+            avatarURL,
+          },
         } = data;
         return {
           userData: {
             token: encodedToken,
-            user: { username, firstName, lastName },
+            user: {
+              username,
+              firstName,
+              lastName,
+              followers,
+              following,
+              avatarURL,
+            },
           },
         };
       }
@@ -47,12 +62,26 @@ export const signupHandler = createAsyncThunk(
       if (status === 201) {
         const {
           encodedToken,
-          createdUser: { username, firstName, lastName },
+          createdUser: {
+            username,
+            firstName,
+            lastName,
+            followers,
+            following,
+            avatarURL,
+          },
         } = data;
         return {
           userData: {
             token: encodedToken,
-            user: { username, firstName, lastName },
+            user: {
+              username,
+              firstName,
+              lastName,
+              followers,
+              following,
+              avatarURL,
+            },
           },
         };
       }
@@ -74,8 +103,16 @@ const initialState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutHandler: (state) => {
+      state.userData = {};
+      localStorage.removeItem("userData");
+      toast.success("Logout Successfully");
+      <Navigate to="/signin" replace={true} />;
+    },
+  },
   extraReducers: {
+    // Login Handler
     [loginHandler.pending]: (state) => {
       state.status = "pending";
     },
@@ -87,6 +124,8 @@ export const authSlice = createSlice({
     [loginHandler.rejected]: (state) => {
       state.status = "rejected";
     },
+
+    // Signup Handler
     [signupHandler.pending]: (state) => {
       state.status = "pending";
     },
@@ -102,3 +141,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+export const { logoutHandler } = authSlice.actions;

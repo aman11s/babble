@@ -4,9 +4,9 @@ import logo from "../../logo.png";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ExploreRoundedIcon from "@mui/icons-material/ExploreRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
-import maleAvatar from "../../assets/male-avatar.png";
 import { NavLink, useLocation } from "react-router-dom";
 import { grey } from "@mui/material/colors";
+import { useSelector } from "react-redux";
 
 const icons = [
   {
@@ -29,16 +29,27 @@ const icons = [
 export const Navbar = () => {
   const theme = useTheme();
   const { pathname } = useLocation();
+  const { user } = useSelector((store) => store.user);
 
   const getActiveStyle = ({ isActive }) => ({
     textDecoration: "none",
     color: isActive ? theme.palette.primary.main : grey[600],
   });
 
-  if (pathname !== "/signin" && pathname !== "signup") {
+  if (pathname !== "/signin" && pathname !== "/signup") {
     return (
       <>
-        <Box component="nav" sx={{ boxShadow: "0px 0px 10px #dedede" }}>
+        <Box
+          component="nav"
+          sx={{
+            backgroundColor: "#fff",
+            boxShadow: "0px 0px 10px #dedede",
+            position: "sticky",
+            py: 0.5,
+            top: 0,
+            zIndex: 1,
+          }}
+        >
           <Box
             sx={{
               maxWidth: "1200px",
@@ -67,7 +78,7 @@ export const Navbar = () => {
                 <NavLink to="/profile">
                   <Avatar
                     alt="user-icon"
-                    src={maleAvatar}
+                    src={user.avatarURL}
                     sx={{ width: 45, height: 45 }}
                   />
                 </NavLink>

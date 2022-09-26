@@ -8,7 +8,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { AuthHOC } from "../../components";
+import { Auth } from "../../components";
 import { loginHandler } from "../../features";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -37,11 +37,11 @@ const initialFormData = {
 
 const testCredentials = {
   username: "aman11s",
-  password: "amansingh",
+  password: "12345678",
   rememberMe: true,
 };
 
-const SigninForm = () => {
+export const Signin = () => {
   const [formData, setFormData] = useState(initialFormData);
 
   const dispatch = useDispatch();
@@ -69,68 +69,68 @@ const SigninForm = () => {
 
   return (
     <>
-      <Typography component="h1" variant="h5">
-        Sign in to Babble
-      </Typography>
-      <Box component="form" onSubmit={submitHandler} sx={{ mt: 1 }}>
-        {signinFormDetails.map(({ id, label, name, type }) => {
-          return (
-            <TextField
-              key={id}
-              onChange={changeHandler}
-              margin="normal"
-              required
-              fullWidth
-              label={label}
-              value={formData[name]}
-              name={name}
-              type={type}
-            />
-          );
-        })}
+      <Auth>
+        <Typography component="h1" variant="h5">
+          Sign in to Babble
+        </Typography>
+        <Box component="form" onSubmit={submitHandler} sx={{ mt: 1 }}>
+          {signinFormDetails.map(({ id, label, name, type }) => {
+            return (
+              <TextField
+                key={id}
+                onChange={changeHandler}
+                margin="normal"
+                required
+                fullWidth
+                label={label}
+                value={formData[name]}
+                name={name}
+                type={type}
+              />
+            );
+          })}
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={toggleHandler}
-              name="rememberMe"
-              checked={formData.rememberMe}
-              color="primary"
-            />
-          }
-          label="Remember me"
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign In
-        </Button>
-        <Button
-          onClick={() => setFormData(testCredentials)}
-          type="button"
-          fullWidth
-          variant="outlined"
-          sx={{ mb: 2 }}
-        >
-          Use Test Credentials
-        </Button>
-
-        <Link to="/signup">
-          <Box
-            sx={{
-              color: `${theme.palette.primary.main}`,
-              textAlign: "end",
-            }}
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={toggleHandler}
+                name="rememberMe"
+                checked={formData.rememberMe}
+                color="primary"
+              />
+            }
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
           >
-            Don't have an account? Sign Up
-          </Box>
-        </Link>
-      </Box>
+            Sign In
+          </Button>
+          <Button
+            onClick={() => setFormData(testCredentials)}
+            type="button"
+            fullWidth
+            variant="outlined"
+            sx={{ mb: 2 }}
+          >
+            Use Test Credentials
+          </Button>
+
+          <Link to="/signup">
+            <Box
+              sx={{
+                color: `${theme.palette.primary.main}`,
+                textAlign: "end",
+              }}
+            >
+              Don't have an account? Sign Up
+            </Box>
+          </Link>
+        </Box>
+      </Auth>
     </>
   );
 };
-
-export const Signin = () => AuthHOC(SigninForm);

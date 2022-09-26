@@ -1,9 +1,13 @@
 import React from "react";
+import { CreatePost, Filter, Posts, Users } from "../../components";
 
 export const Home = () => {
   return (
     <>
-      <h1>Home</h1>
+      <CreatePost />
+      <Filter />
+      <Users />
+      <Posts />
     </>
   );
 };

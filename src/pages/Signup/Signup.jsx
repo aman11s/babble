@@ -9,7 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { AuthHOC } from "../../components";
+import { Auth } from "../../components";
 import { useDispatch } from "react-redux";
 import { signupHandler } from "../../features";
 import toast from "react-hot-toast";
@@ -44,7 +44,7 @@ const initialFormData = {
   termsAndConditions: false,
 };
 
-const SignupForm = () => {
+export const Signup = () => {
   const theme = useTheme();
 
   const [formData, setFormData] = useState(initialFormData);
@@ -78,82 +78,82 @@ const SignupForm = () => {
 
   return (
     <>
-      <Typography component="h1" variant="h5">
-        Sign up to Babble
-      </Typography>
-      <Box component="form" onSubmit={submitHandler} sx={{ mt: 1 }}>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <TextField
-            onChange={changeHandler}
-            margin="normal"
-            required
-            fullWidth
-            label="First Name"
-            value={formData.firstName}
-            name="firstName"
-            type="text"
-          />
-          <TextField
-            onChange={changeHandler}
-            margin="normal"
-            required
-            fullWidth
-            label="Last Name"
-            value={formData.lastName}
-            name="lastName"
-            type="text"
-          />
-        </Box>
-
-        {signupFormDetails.map(({ id, label, name, type }) => {
-          return (
+      <Auth>
+        <Typography component="h1" variant="h5">
+          Sign up to Babble
+        </Typography>
+        <Box component="form" onSubmit={submitHandler} sx={{ mt: 1 }}>
+          <Box sx={{ display: "flex", gap: 2 }}>
             <TextField
-              key={id}
               onChange={changeHandler}
               margin="normal"
               required
               fullWidth
-              label={label}
-              value={formData[name]}
-              name={name}
-              type={type}
+              label="First Name"
+              value={formData.firstName}
+              name="firstName"
+              type="text"
             />
-          );
-        })}
-
-        <FormControlLabel
-          control={
-            <Checkbox
-              onChange={toggleHandler}
-              name="termsAndConditions"
-              checked={formData.termsAndConditions}
-              color="primary"
+            <TextField
+              onChange={changeHandler}
+              margin="normal"
+              required
+              fullWidth
+              label="Last Name"
+              value={formData.lastName}
+              name="lastName"
+              type="text"
             />
-          }
-          label="I accept all Terms & Conditions"
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign up
-        </Button>
-
-        <Link to="/signin">
-          <Box
-            sx={{
-              color: `${theme.palette.primary.main}`,
-              textAlign: "end",
-            }}
-          >
-            Already have an account? Sign in
           </Box>
-        </Link>
-      </Box>
+
+          {signupFormDetails.map(({ id, label, name, type }) => {
+            return (
+              <TextField
+                key={id}
+                onChange={changeHandler}
+                margin="normal"
+                required
+                fullWidth
+                label={label}
+                value={formData[name]}
+                name={name}
+                type={type}
+              />
+            );
+          })}
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={toggleHandler}
+                name="termsAndConditions"
+                checked={formData.termsAndConditions}
+                color="primary"
+              />
+            }
+            label="I accept all Terms & Conditions"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign up
+          </Button>
+
+          <Link to="/signin">
+            <Box
+              sx={{
+                color: `${theme.palette.primary.main}`,
+                textAlign: "end",
+              }}
+            >
+              Already have an account? Sign in
+            </Box>
+          </Link>
+        </Box>
+      </Auth>
     </>
   );
 };
-
-export const Signup = () => AuthHOC(SignupForm);
