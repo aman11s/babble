@@ -1,6 +1,5 @@
 import { Box, CssBaseline } from "@mui/material";
 import { Toaster } from "react-hot-toast";
-import { grey } from "@mui/material/colors";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Navbar, RequiresAuth } from "./components";
 import { Bookmark, Explore, Home, Profile, Signin, Signup } from "./pages";
@@ -11,12 +10,7 @@ function App() {
   const authPages =
     location.pathname === "/signin" || location.pathname === "/signup";
 
-  const mainStyles = authPages
-    ? {}
-    : {
-        backgroundColor: grey[100],
-        p: 2.5,
-      };
+  const mainStyles = authPages ? {} : { p: 2.5 };
 
   const routeStyles = authPages ? {} : { maxWidth: "600px", mx: "auto" };
 
