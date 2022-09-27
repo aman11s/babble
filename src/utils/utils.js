@@ -85,3 +85,6 @@ export const getSortedPosts = (allPosts, sortState) => {
       return allPosts;
   }
 };
+
+export const isAlreadyInBookmark = (allBookmarks, bookmarkPostId) =>
+  allBookmarks.some(({ _id }) => _id === bookmarkPostId);
