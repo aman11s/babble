@@ -8,8 +8,16 @@ export const Posts = () => {
   const dispatch = useDispatch();
 
   const { posts, sortBy } = useSelector((store) => store.posts);
+  const { user } = useSelector((store) => store.user);
 
-  const sortedPosts = getSortedPosts(posts, sortBy);
+  const followingUsers = user.following.map(({ username }) => username);
+
+  const followingFilteredPosts = posts.filter(
+    ({ username }) =>
+      username.includes(user.username) || followingUsers.includes(username)
+  );
+
+  const sortedPosts = getSortedPosts(followingFilteredPosts, sortBy);
 
   useEffect(() => {
     dispatch(getAllPosts());
