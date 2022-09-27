@@ -1,1 +1,6 @@
-export { isAlreadyFollowing, getTime, getSortedPosts } from "./utils";
+export {
+  isAlreadyFollowing,
+  getTime,
+  getSortedPosts,
+  isAlreadyInBookmark,
+} from "./utils";

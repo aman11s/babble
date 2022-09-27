@@ -11,12 +11,13 @@ import {
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { CommonBox } from "../CommonBox/CommonBox";
-import { getTime } from "../../utils";
+import { getTime, isAlreadyInBookmark } from "../../utils";
 import { EditPostModal } from "../EditPostModal/EditPostModal";
-import { deletePost } from "../../features";
+import { addToBookmark, deletePost } from "../../features";
 import { useCustomToast } from "../../hooks";
 
 export const PostCard = ({ post }) => {
@@ -37,11 +38,14 @@ export const PostCard = ({ post }) => {
   const {
     userData: { user, token },
   } = useSelector((store) => store.auth);
+  const { bookmarks } = useSelector((store) => store.bookmarks);
+
   const dispatch = useDispatch();
   const customToast = useCustomToast();
 
   const [menuActive, setMenuActive] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const closeEditModal = () => setOpenEditModal(false);
 
@@ -58,6 +62,22 @@ export const PostCard = ({ post }) => {
       customToast(meta, payload);
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const inBookmark = isAlreadyInBookmark(bookmarks, _id);
+
+  const bookmarkClickHandler = async () => {
+    try {
+      setDisableBtn(true);
+      const { meta, payload } = await dispatch(
+        addToBookmark({ postId: _id, token })
+      );
+      customToast(meta, payload);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDisableBtn(false);
     }
   };
 
@@ -137,8 +157,16 @@ export const PostCard = ({ post }) => {
               {comments.length}
             </Typography>
           </Box>
-          <IconButton aria-label="bookmark">
-            <BookmarkBorderRoundedIcon />
+          <IconButton
+            disabled={disableBtn}
+            onClick={bookmarkClickHandler}
+            aria-label="bookmark"
+          >
+            {inBookmark ? (
+              <BookmarkRoundedIcon />
+            ) : (
+              <BookmarkBorderRoundedIcon />
+            )}
           </IconButton>
         </Box>
       </CommonBox>
