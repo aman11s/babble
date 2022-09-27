@@ -14,12 +14,35 @@ export const addToBookmark = createAsyncThunk(
       if (status === 200) {
         return {
           addToBookmark: data.bookmarks,
-          message: "Post bookmarked successfully",
+          message: "Bookmarked successfully",
         };
       }
     } catch (e) {
       console.error(e);
       return rejectWithValue({ message: "Failed to bookmark post" });
+    }
+  }
+);
+
+export const removeFromBookmark = createAsyncThunk(
+  "bookmark/removeFromBookmark",
+  async ({ postId, token }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "POST",
+        url: `/api/users/remove-bookmark/${postId}`,
+        headers: { authorization: token },
+        data: {},
+      });
+      if (status === 200) {
+        return {
+          removeFromBookmark: data.bookmarks,
+          message: "Removed from bookmark",
+        };
+      }
+    } catch (e) {
+      console.error(e);
+      rejectWithValue({ message: "Failed to remove bookmark" });
     }
   }
 );
@@ -43,6 +66,18 @@ export const bookmartSlice = createSlice({
       state.bookmarks = payload.addToBookmark;
     },
     [addToBookmark.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Remove from bookmark
+    [removeFromBookmark.pending]: (state) => {
+      state.status = "pending";
+    },
+    [removeFromBookmark.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.bookmarks = payload.removeFromBookmark;
+    },
+    [removeFromBookmark.rejected]: (state) => {
       state.status = "rejected";
     },
   },

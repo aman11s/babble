@@ -7,4 +7,4 @@ export {
   deletePost,
   sortByHandler,
 } from "./post/postSlice";
-export { addToBookmark } from "./bookmark/bookmarkSlice";
+export { addToBookmark, removeFromBookmark } from "./bookmark/bookmarkSlice";

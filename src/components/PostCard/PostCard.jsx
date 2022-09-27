@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CommonBox } from "../CommonBox/CommonBox";
 import { getTime, isAlreadyInBookmark } from "../../utils";
 import { EditPostModal } from "../EditPostModal/EditPostModal";
-import { addToBookmark, deletePost } from "../../features";
+import { addToBookmark, deletePost, removeFromBookmark } from "../../features";
 import { useCustomToast } from "../../hooks";
 
 export const PostCard = ({ post }) => {
@@ -68,16 +68,30 @@ export const PostCard = ({ post }) => {
   const inBookmark = isAlreadyInBookmark(bookmarks, _id);
 
   const bookmarkClickHandler = async () => {
-    try {
-      setDisableBtn(true);
-      const { meta, payload } = await dispatch(
-        addToBookmark({ postId: _id, token })
-      );
-      customToast(meta, payload);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setDisableBtn(false);
+    if (inBookmark) {
+      try {
+        setDisableBtn(true);
+        const { meta, payload } = await dispatch(
+          removeFromBookmark({ postId: _id, token })
+        );
+        customToast(meta, payload);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setDisableBtn(false);
+      }
+    } else {
+      try {
+        setDisableBtn(true);
+        const { meta, payload } = await dispatch(
+          addToBookmark({ postId: _id, token })
+        );
+        customToast(meta, payload);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setDisableBtn(false);
+      }
     }
   };
 
