@@ -167,4 +167,99 @@ export const posts = [
       },
     ],
   },
+  {
+    _id: uuid(),
+    firstName: "Sourabh",
+    lastName: "Kheraliya",
+    username: "sk02k1",
+    avatarURL: "https://avatars.githubusercontent.com/u/55895224?v=4",
+    content:
+      "Those green boxes on github contribution graph can really push you to code.",
+    likes: {
+      likeCount: 6,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    createdAt: "2022-06-05T12:40:03+05:30",
+    updatedAt: "2022-06-05T12:40:03+05:30",
+    comments: [
+      {
+        _id: uuid(),
+        firstName: "Aman",
+        lastName: "Singh",
+        username: "aman11s",
+        avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
+        text: "Indeed!",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+  },
+  {
+    _id: uuid(),
+    firstName: "Chirag",
+    lastName: "Gupta",
+    username: "hardiegogo",
+    avatarURL:
+      "https://res.cloudinary.com/dqqehaaqo/image/upload/v1656880084/mircle/profile_pic_clyjaw.jpg",
+    content: "It isn't too late to learn to code. You are right on time!",
+    likes: {
+      likeCount: 11,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    createdAt: "2022-04-13T15:15:03+05:30",
+    updatedAt: "2022-04-13T15:15:03+05:30",
+    comments: [
+      {
+        _id: uuid(),
+        firstName: "Aman",
+        lastName: "Singh",
+        username: "aman11s",
+        avatarURL: "https://amansingh.vercel.app/assets/images/aman.jpg",
+        text: "Yayy!",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+  },
+  {
+    _id: uuid(),
+    firstName: "Tanvi",
+    lastName: "Priya",
+    username: "tanviprya",
+    avatarURL:
+      "https://pbs.twimg.com/media/FJ9PSppagAMgXRa?format=jpg&name=large",
+    content:
+      "When odds are against you, you re-discover your survival instincts.",
+    likes: {
+      likeCount: 17,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    createdAt: "2022-07-06T20:10:03+05:30",
+    updatedAt: "2022-07-06T20:10:03+05:30",
+    comments: [],
+  },
+  {
+    _id: uuid(),
+    firstName: "Soham",
+    lastName: "Shah",
+    username: "sohamshah",
+    avatarURL:
+      "https://pbs.twimg.com/profile_images/1481869646018265088/SgTPHx3S_400x400.jpg",
+    content: "it's not about procrastinating X, but prioritising Y others.",
+    likes: {
+      likeCount: 15,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    createdAt: "2022-07-09T11:10:03+05:30",
+    updatedAt: "2022-07-08T11:10:03+05:30",
+    comments: [],
+  },
 ];
