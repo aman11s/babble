@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { editPost } from "../post/postSlice";
 
 export const addToBookmark = createAsyncThunk(
   "bookmark/addToBookmark",
@@ -79,6 +80,16 @@ export const bookmartSlice = createSlice({
     },
     [removeFromBookmark.rejected]: (state) => {
       state.status = "rejected";
+    },
+
+    // Consume edited post
+    [editPost.fulfilled]: (state, { payload }) => {
+      const { editPost, editPostId } = payload;
+      const getEditedPost = editPost.find(({ _id }) => _id === editPostId);
+      const getEditedPostIndexInBookmark = state.bookmarks.findIndex(
+        ({ _id }) => _id === getEditedPost._id
+      );
+      state.bookmarks[getEditedPostIndexInBookmark] = getEditedPost;
     },
   },
 });

@@ -50,7 +50,11 @@ export const editPost = createAsyncThunk(
         data: { postData },
       });
       if (status === 201) {
-        return { editPost: data.posts, message: "Post edited successfully" };
+        return {
+          editPost: data.posts,
+          message: "Post edited successfully",
+          editPostId: postId,
+        };
       }
     } catch (e) {
       console.error(e);
