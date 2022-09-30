@@ -6,5 +6,6 @@ export {
   editPost,
   deletePost,
   sortByHandler,
+  likeUnlikePost,
 } from "./post/postSlice";
 export { addToBookmark, removeFromBookmark } from "./bookmark/bookmarkSlice";

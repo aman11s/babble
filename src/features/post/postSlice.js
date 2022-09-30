@@ -82,6 +82,26 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+export const likeUnlikePost = createAsyncThunk(
+  "post/likeUnlikePost",
+  async ({ postId, token, action }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "POST",
+        url: `/api/posts/${action}/${postId}`,
+        headers: { authorization: token },
+        data: {},
+      });
+      if (status === 201) {
+        return { likeUnlikePost: data.posts };
+      }
+    } catch (e) {
+      console.error(e);
+      rejectWithValue({ message: `Failed to ${action} post` });
+    }
+  }
+);
+
 const initialState = {
   posts: [],
   status: "idle",
@@ -142,6 +162,18 @@ export const postSlice = createSlice({
       state.posts = payload.deletePost;
     },
     [deletePost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Like Post
+    [likeUnlikePost.pending]: (state) => {
+      state.status = "pending";
+    },
+    [likeUnlikePost.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.posts = payload.likeUnlikePost;
+    },
+    [likeUnlikePost.rejected]: (state) => {
       state.status = "rejected";
     },
   },

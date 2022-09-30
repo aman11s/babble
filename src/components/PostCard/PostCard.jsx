@@ -9,15 +9,21 @@ import {
   Typography,
 } from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { CommonBox } from "../CommonBox/CommonBox";
-import { getTime, isAlreadyInBookmark } from "../../utils";
+import { getTime, isAlreadyInBookmark, isAlreadyLikedPost } from "../../utils";
 import { EditPostModal } from "../EditPostModal/EditPostModal";
-import { addToBookmark, deletePost, removeFromBookmark } from "../../features";
+import {
+  addToBookmark,
+  deletePost,
+  likeUnlikePost,
+  removeFromBookmark,
+} from "../../features";
 import { useCustomToast } from "../../hooks";
 
 export const PostCard = ({ post }) => {
@@ -28,7 +34,7 @@ export const PostCard = ({ post }) => {
     lastName,
     username,
     content,
-    likes: { likeCount },
+    likes: { likeCount, likedBy },
     comments,
     createdAt,
   } = post;
@@ -46,6 +52,7 @@ export const PostCard = ({ post }) => {
   const [menuActive, setMenuActive] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [disableBtn, setDisableBtn] = useState(false);
+  const [disableLikeBtn, setDisableLikeBtn] = useState(false);
 
   const closeEditModal = () => setOpenEditModal(false);
 
@@ -68,30 +75,29 @@ export const PostCard = ({ post }) => {
   const inBookmark = isAlreadyInBookmark(bookmarks, _id);
 
   const bookmarkClickHandler = async () => {
-    if (inBookmark) {
-      try {
-        setDisableBtn(true);
-        const { meta, payload } = await dispatch(
-          removeFromBookmark({ postId: _id, token })
-        );
-        customToast(meta, payload);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setDisableBtn(false);
-      }
-    } else {
-      try {
-        setDisableBtn(true);
-        const { meta, payload } = await dispatch(
-          addToBookmark({ postId: _id, token })
-        );
-        customToast(meta, payload);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setDisableBtn(false);
-      }
+    try {
+      setDisableBtn(true);
+      const handler = inBookmark ? removeFromBookmark : addToBookmark;
+      const { meta, payload } = await dispatch(handler({ postId: _id, token }));
+      customToast(meta, payload);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDisableBtn(false);
+    }
+  };
+
+  const isLiked = isAlreadyLikedPost(likedBy, user);
+
+  const likeUnlikeClickHandler = async () => {
+    try {
+      setDisableLikeBtn(true);
+      const action = isLiked ? "dislike" : "like";
+      await dispatch(likeUnlikePost({ postId: _id, token, action }));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDisableLikeBtn(false);
     }
   };
 
@@ -156,8 +162,16 @@ export const PostCard = ({ post }) => {
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="like">
-              <FavoriteBorderRoundedIcon />
+            <IconButton
+              disabled={disableLikeBtn}
+              onClick={likeUnlikeClickHandler}
+              aria-label="like"
+            >
+              {isLiked ? (
+                <FavoriteRoundedIcon color="error" />
+              ) : (
+                <FavoriteBorderRoundedIcon />
+              )}
             </IconButton>
             <Typography sx={{ color: "text.secondary" }} variant="body2">
               {likeCount}
