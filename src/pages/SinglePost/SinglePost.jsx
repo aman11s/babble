@@ -16,6 +16,7 @@ export const SinglePost = () => {
   const { posts } = useSelector((store) => store.posts);
 
   const [singlePost, setSinglePost] = useState();
+  const [comments, setComments] = useState();
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
 
@@ -38,6 +39,22 @@ export const SinglePost = () => {
       }
     })();
   }, [postId, posts]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data, status } = await axios({
+          method: "GET",
+          url: `/api/comments/${postId}`,
+        });
+        if (status === 200) {
+          setComments(data.comments);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [postId]);
 
   if (loader && !singlePost) {
     return (
@@ -64,7 +81,7 @@ export const SinglePost = () => {
 
       {singlePost && <PostCard post={singlePost} />}
 
-      {singlePost?.comments && (
+      {comments && (
         <>
           <Typography
             sx={{ display: "flex", alignItems: "center" }}
@@ -74,7 +91,7 @@ export const SinglePost = () => {
             Comments <NotesRoundedIcon sx={{ ml: 1 }} />
           </Typography>
           <PostComment />
-          {singlePost?.comments.map((comment) => {
+          {comments.map((comment) => {
             return (
               <CommentCard
                 key={comment._id}
