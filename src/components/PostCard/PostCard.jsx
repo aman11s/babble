@@ -25,6 +25,7 @@ import {
   removeFromBookmark,
 } from "../../features";
 import { useCustomToast } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 export const PostCard = ({ post }) => {
   const {
@@ -47,6 +48,7 @@ export const PostCard = ({ post }) => {
   const { bookmarks } = useSelector((store) => store.bookmarks);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const customToast = useCustomToast();
 
   const [menuActive, setMenuActive] = useState(false);
@@ -178,7 +180,10 @@ export const PostCard = ({ post }) => {
             </Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="comment">
+            <IconButton
+              onClick={() => navigate(`/post/${_id}`)}
+              aria-label="comment"
+            >
               <CommentRoundedIcon />
             </IconButton>
             <Typography sx={{ color: "text.secondary" }} variant="body2">

@@ -9,3 +9,5 @@ export { UserCard } from "./UserCard/UserCard";
 export { Posts } from "./Posts/Posts";
 export { PostCard } from "./PostCard/PostCard";
 export { EditPostModal } from "./EditPostModal/EditPostModal";
+export { CommentCard } from "./CommentCard/CommentCard";
+export { PostComment } from "./PostComment/PostComment";

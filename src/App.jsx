@@ -2,7 +2,15 @@ import { Box, CssBaseline } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Navbar, RequiresAuth } from "./components";
-import { Bookmark, Explore, Home, Profile, Signin, Signup } from "./pages";
+import {
+  Bookmark,
+  Explore,
+  Home,
+  Profile,
+  Signin,
+  Signup,
+  SinglePost,
+} from "./pages";
 
 function App() {
   const location = useLocation();
@@ -32,6 +40,7 @@ function App() {
               <Route path="/explore" element={<Explore />} />
               <Route path="/bookmark" element={<Bookmark />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/post/:postId" element={<SinglePost />} />
             </Route>
           </Routes>
         </Box>
