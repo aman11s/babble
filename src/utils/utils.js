@@ -88,3 +88,6 @@ export const getSortedPosts = (allPosts, sortState) => {
 
 export const isAlreadyInBookmark = (allBookmarks, bookmarkPostId) =>
   allBookmarks.some(({ _id }) => _id === bookmarkPostId);
+
+export const isAlreadyLikedPost = (allLikes, loggedUser) =>
+  allLikes.some(({ username }) => username === loggedUser.username);

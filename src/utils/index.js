@@ -3,4 +3,5 @@ export {
   getTime,
   getSortedPosts,
   isAlreadyInBookmark,
+  isAlreadyLikedPost,
 } from "./utils";
