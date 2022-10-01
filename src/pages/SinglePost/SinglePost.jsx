@@ -14,9 +14,10 @@ export const SinglePost = () => {
   const navigate = useNavigate();
 
   const { posts } = useSelector((store) => store.posts);
+  const { comments } = useSelector((store) => store.comments);
 
   const [singlePost, setSinglePost] = useState();
-  const [comments, setComments] = useState();
+  const [allComments, setAllComments] = useState();
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
 
@@ -48,13 +49,13 @@ export const SinglePost = () => {
           url: `/api/comments/${postId}`,
         });
         if (status === 200) {
-          setComments(data.comments);
+          setAllComments(data.comments);
         }
       } catch (e) {
         console.error(e);
       }
     })();
-  }, [postId]);
+  }, [postId, comments]);
 
   if (loader && !singlePost) {
     return (
@@ -81,7 +82,7 @@ export const SinglePost = () => {
 
       {singlePost && <PostCard post={singlePost} />}
 
-      {comments && (
+      {allComments && (
         <>
           <Typography
             sx={{ display: "flex", alignItems: "center" }}
@@ -90,16 +91,17 @@ export const SinglePost = () => {
           >
             Comments <NotesRoundedIcon sx={{ ml: 1 }} />
           </Typography>
-          <PostComment />
-          {comments.map((comment) => {
-            return (
-              <CommentCard
-                key={comment._id}
-                comment={comment}
-                singlePost={singlePost}
-              />
-            );
-          })}
+          <PostComment postId={postId} />
+          {allComments &&
+            [...allComments].reverse().map((comment) => {
+              return (
+                <CommentCard
+                  key={comment._id}
+                  comment={comment}
+                  singlePost={singlePost}
+                />
+              );
+            })}
         </>
       )}
     </>
