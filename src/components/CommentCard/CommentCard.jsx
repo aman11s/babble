@@ -10,21 +10,45 @@ import {
 import React, { useState } from "react";
 import { CommonBox } from "../CommonBox/CommonBox";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComment } from "../../features";
+import { useCustomToast } from "../../hooks";
 
 export const CommentCard = ({ comment, singlePost }) => {
-  const { avatarURL, firstName, lastName, username, text } = comment;
+  const { avatarURL, firstName, lastName, username, text, _id } = comment;
 
   const { user } = useSelector((store) => store.user);
+  const {
+    userData: { token },
+  } = useSelector((store) => store.auth);
+
+  const dispatch = useDispatch();
+  const customToast = useCustomToast();
 
   const [menuActive, setMenuActive] = useState(false);
+  const [disableComp, setDisableComp] = useState(false);
 
   const commentControls =
     singlePost?.username === user.username || username === user.username;
 
+  const deleteCommentHandler = async () => {
+    setMenuActive(false);
+    try {
+      setDisableComp(true);
+      const { meta, payload } = await dispatch(
+        deleteComment({ postId: singlePost?._id, commentId: _id, token })
+      );
+      customToast(meta, payload);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDisableComp(false);
+    }
+  };
+
   return (
     <>
-      <CommonBox my={2}>
+      <CommonBox disable={disableComp} my={2}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             sx={{ height: 45, width: 45 }}
@@ -54,7 +78,12 @@ export const CommentCard = ({ comment, singlePost }) => {
                   elevation={2}
                 >
                   <MenuList>
-                    <MenuItem sx={{ color: "red" }}>Delete</MenuItem>
+                    <MenuItem
+                      onClick={deleteCommentHandler}
+                      sx={{ color: "red" }}
+                    >
+                      Delete
+                    </MenuItem>
                   </MenuList>
                 </Paper>
               )}

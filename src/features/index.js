@@ -9,4 +9,4 @@ export {
   likeUnlikePost,
 } from "./post/postSlice";
 export { addToBookmark, removeFromBookmark } from "./bookmark/bookmarkSlice";
-export { addComment } from "./comment/commentSlice";
+export { addComment, deleteComment } from "./comment/commentSlice";

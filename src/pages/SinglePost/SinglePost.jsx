@@ -17,7 +17,6 @@ export const SinglePost = () => {
   const { comments } = useSelector((store) => store.comments);
 
   const [singlePost, setSinglePost] = useState();
-  const [allComments, setAllComments] = useState();
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
 
@@ -39,23 +38,12 @@ export const SinglePost = () => {
         setLoader(false);
       }
     })();
-  }, [postId, posts]);
+  }, [postId, posts, comments]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { data, status } = await axios({
-          method: "GET",
-          url: `/api/comments/${postId}`,
-        });
-        if (status === 200) {
-          setAllComments(data.comments);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, [postId, comments]);
+  // Find comments for singlePost from all Posts
+  const allComments = posts.find(
+    ({ _id }) => singlePost?._id === _id
+  )?.comments;
 
   if (loader && !singlePost) {
     return (

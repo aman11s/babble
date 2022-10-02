@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { addComment, deleteComment } from "../comment/commentSlice";
 
 export const getAllPosts = createAsyncThunk(
   "post/getAllUsers",
@@ -174,6 +175,32 @@ export const postSlice = createSlice({
       state.posts = payload.likeUnlikePost;
     },
     [likeUnlikePost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Consume add new comments
+    [addComment.pending]: (state) => {
+      state.status = "pending";
+    },
+    [addComment.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
+      foundPost.comments = payload.addComment;
+    },
+    [addComment.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Consume delete comments
+    [deleteComment.pending]: (state) => {
+      state.status = "pending";
+    },
+    [deleteComment.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
+      foundPost.comments = payload.deleteComment;
+    },
+    [deleteComment.rejected]: (state) => {
       state.status = "rejected";
     },
   },
