@@ -13,6 +13,7 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "../../features";
 import { useCustomToast } from "../../hooks";
+import { EditCommentModal } from "../EditCommentModal/EditCommentModal";
 
 export const CommentCard = ({ comment, singlePost }) => {
   const { avatarURL, firstName, lastName, username, text, _id } = comment;
@@ -27,6 +28,7 @@ export const CommentCard = ({ comment, singlePost }) => {
 
   const [menuActive, setMenuActive] = useState(false);
   const [disableComp, setDisableComp] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   const commentControls =
     singlePost?.username === user.username || username === user.username;
@@ -44,6 +46,13 @@ export const CommentCard = ({ comment, singlePost }) => {
     } finally {
       setDisableComp(false);
     }
+  };
+
+  const closeEditModal = () => setOpenEditModal(false);
+
+  const editCommentHandler = () => {
+    setMenuActive(false);
+    setOpenEditModal(true);
   };
 
   return (
@@ -78,6 +87,9 @@ export const CommentCard = ({ comment, singlePost }) => {
                   elevation={2}
                 >
                   <MenuList>
+                    {user.username === username && (
+                      <MenuItem onClick={editCommentHandler}>Edit</MenuItem>
+                    )}
                     <MenuItem
                       onClick={deleteCommentHandler}
                       sx={{ color: "red" }}
@@ -86,6 +98,15 @@ export const CommentCard = ({ comment, singlePost }) => {
                     </MenuItem>
                   </MenuList>
                 </Paper>
+              )}
+              {openEditModal && (
+                <EditCommentModal
+                  openEditModal={openEditModal}
+                  closeEditModal={closeEditModal}
+                  text={text}
+                  postId={singlePost?._id}
+                  commentId={_id}
+                />
               )}
             </Box>
           )}

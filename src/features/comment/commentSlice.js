@@ -48,6 +48,30 @@ export const deleteComment = createAsyncThunk(
   }
 );
 
+export const editComment = createAsyncThunk(
+  "comment/editComment",
+  async ({ postId, commentId, token, commentData }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "POST",
+        url: `/api/comments/edit/${postId}/${commentId}`,
+        headers: { authorization: token },
+        data: { commentData },
+      });
+      if (status === 201) {
+        return {
+          editComment: data.comments,
+          postId,
+          message: "Comment edited",
+        };
+      }
+    } catch (e) {
+      console.error(e);
+      rejectWithValue({ message: "Failed to edit comment" });
+    }
+  }
+);
+
 const initialState = {
   comments: [],
   status: "idle",
@@ -78,6 +102,18 @@ export const commentSlice = createSlice({
       state.comments = payload.deleteComment;
     },
     [deleteComment.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Edit Comment
+    [editComment.pending]: (state) => {
+      state.status = "pending";
+    },
+    [editComment.fulfilled]: (state, { payload }) => {
+      state.staus = "fulfilled";
+      state.comments = payload.editComment;
+    },
+    [editComment.rejected]: (state) => {
       state.status = "rejected";
     },
   },
