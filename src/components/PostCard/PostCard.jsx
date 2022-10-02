@@ -55,6 +55,7 @@ export const PostCard = ({ post }) => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [disableBtn, setDisableBtn] = useState(false);
   const [disableLikeBtn, setDisableLikeBtn] = useState(false);
+  const [disableComp, setDisableComp] = useState(false);
 
   const closeEditModal = () => setOpenEditModal(false);
 
@@ -65,12 +66,15 @@ export const PostCard = ({ post }) => {
 
   const deletePostHandler = async () => {
     try {
+      setDisableComp(true);
       const { meta, payload } = await dispatch(
         deletePost({ postId: _id, token })
       );
       customToast(meta, payload);
     } catch (e) {
       console.error(e);
+    } finally {
+      setDisableComp(false);
     }
   };
 
@@ -105,7 +109,7 @@ export const PostCard = ({ post }) => {
 
   return (
     <>
-      <CommonBox my={4}>
+      <CommonBox my={4} disable={disableComp}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             sx={{
