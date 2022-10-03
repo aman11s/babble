@@ -1,9 +1,16 @@
 import { Box, CssBaseline } from "@mui/material";
 import { Toaster } from "react-hot-toast";
-import { grey } from "@mui/material/colors";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Navbar, RequiresAuth } from "./components";
-import { Bookmark, Explore, Home, Profile, Signin, Signup } from "./pages";
+import {
+  Bookmark,
+  Explore,
+  Home,
+  Profile,
+  Signin,
+  Signup,
+  SinglePost,
+} from "./pages";
 
 function App() {
   const location = useLocation();
@@ -11,12 +18,7 @@ function App() {
   const authPages =
     location.pathname === "/signin" || location.pathname === "/signup";
 
-  const mainStyles = authPages
-    ? {}
-    : {
-        backgroundColor: grey[100],
-        p: 2.5,
-      };
+  const mainStyles = authPages ? {} : { p: 2.5 };
 
   const routeStyles = authPages ? {} : { maxWidth: "600px", mx: "auto" };
 
@@ -38,6 +40,7 @@ function App() {
               <Route path="/explore" element={<Explore />} />
               <Route path="/bookmark" element={<Bookmark />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/post/:postId" element={<SinglePost />} />
             </Route>
           </Routes>
         </Box>

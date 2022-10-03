@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import {
+  addComment,
+  deleteComment,
+  editComment,
+} from "../comment/commentSlice";
 
 export const getAllPosts = createAsyncThunk(
   "post/getAllUsers",
@@ -50,7 +55,11 @@ export const editPost = createAsyncThunk(
         data: { postData },
       });
       if (status === 201) {
-        return { editPost: data.posts, message: "Post edited successfully" };
+        return {
+          editPost: data.posts,
+          message: "Post edited successfully",
+          editPostId: postId,
+        };
       }
     } catch (e) {
       console.error(e);
@@ -74,6 +83,26 @@ export const deletePost = createAsyncThunk(
     } catch (e) {
       console.error(e);
       return rejectWithValue({ message: "Failed to delete post" });
+    }
+  }
+);
+
+export const likeUnlikePost = createAsyncThunk(
+  "post/likeUnlikePost",
+  async ({ postId, token, action }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "POST",
+        url: `/api/posts/${action}/${postId}`,
+        headers: { authorization: token },
+        data: {},
+      });
+      if (status === 201) {
+        return { likeUnlikePost: data.posts };
+      }
+    } catch (e) {
+      console.error(e);
+      rejectWithValue({ message: `Failed to ${action} post` });
     }
   }
 );
@@ -138,6 +167,57 @@ export const postSlice = createSlice({
       state.posts = payload.deletePost;
     },
     [deletePost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Like Post
+    [likeUnlikePost.pending]: (state) => {
+      state.status = "pending";
+    },
+    [likeUnlikePost.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.posts = payload.likeUnlikePost;
+    },
+    [likeUnlikePost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Consume add new comments
+    [addComment.pending]: (state) => {
+      state.status = "pending";
+    },
+    [addComment.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
+      foundPost.comments = payload.addComment;
+    },
+    [addComment.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Consume delete comments
+    [deleteComment.pending]: (state) => {
+      state.status = "pending";
+    },
+    [deleteComment.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
+      foundPost.comments = payload.deleteComment;
+    },
+    [deleteComment.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Consume edit comments
+    [editComment.pending]: (state) => {
+      state.status = "pending";
+    },
+    [editComment.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
+      foundPost.comments = payload.editComment;
+    },
+    [editComment.rejected]: (state) => {
       state.status = "rejected";
     },
   },

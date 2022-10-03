@@ -9,15 +9,23 @@ import {
   Typography,
 } from "@mui/material";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { CommonBox } from "../CommonBox/CommonBox";
-import { getTime } from "../../utils";
+import { getTime, isAlreadyInBookmark, isAlreadyLikedPost } from "../../utils";
 import { EditPostModal } from "../EditPostModal/EditPostModal";
-import { deletePost } from "../../features";
+import {
+  addToBookmark,
+  deletePost,
+  likeUnlikePost,
+  removeFromBookmark,
+} from "../../features";
 import { useCustomToast } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 export const PostCard = ({ post }) => {
   const {
@@ -27,7 +35,7 @@ export const PostCard = ({ post }) => {
     lastName,
     username,
     content,
-    likes: { likeCount },
+    likes: { likeCount, likedBy },
     comments,
     createdAt,
   } = post;
@@ -37,11 +45,17 @@ export const PostCard = ({ post }) => {
   const {
     userData: { user, token },
   } = useSelector((store) => store.auth);
+  const { bookmarks } = useSelector((store) => store.bookmarks);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const customToast = useCustomToast();
 
   const [menuActive, setMenuActive] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false);
+  const [disableLikeBtn, setDisableLikeBtn] = useState(false);
+  const [disableComp, setDisableComp] = useState(false);
 
   const closeEditModal = () => setOpenEditModal(false);
 
@@ -52,18 +66,50 @@ export const PostCard = ({ post }) => {
 
   const deletePostHandler = async () => {
     try {
+      setDisableComp(true);
       const { meta, payload } = await dispatch(
         deletePost({ postId: _id, token })
       );
       customToast(meta, payload);
     } catch (e) {
       console.error(e);
+    } finally {
+      setDisableComp(false);
+    }
+  };
+
+  const inBookmark = isAlreadyInBookmark(bookmarks, _id);
+
+  const bookmarkClickHandler = async () => {
+    try {
+      setDisableBtn(true);
+      const handler = inBookmark ? removeFromBookmark : addToBookmark;
+      const { meta, payload } = await dispatch(handler({ postId: _id, token }));
+      customToast(meta, payload);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDisableBtn(false);
+    }
+  };
+
+  const isLiked = isAlreadyLikedPost(likedBy, user);
+
+  const likeUnlikeClickHandler = async () => {
+    try {
+      setDisableLikeBtn(true);
+      const action = isLiked ? "dislike" : "like";
+      await dispatch(likeUnlikePost({ postId: _id, token, action }));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setDisableLikeBtn(false);
     }
   };
 
   return (
     <>
-      <CommonBox my={4}>
+      <CommonBox my={4} disable={disableComp}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             sx={{
@@ -122,23 +168,42 @@ export const PostCard = ({ post }) => {
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="like">
-              <FavoriteBorderRoundedIcon />
+            <IconButton
+              disabled={disableLikeBtn}
+              onClick={likeUnlikeClickHandler}
+              aria-label="like"
+            >
+              {isLiked ? (
+                <FavoriteRoundedIcon color="error" />
+              ) : (
+                <FavoriteBorderRoundedIcon />
+              )}
             </IconButton>
             <Typography sx={{ color: "text.secondary" }} variant="body2">
               {likeCount}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton aria-label="comment">
+            <IconButton
+              onClick={() => navigate(`/post/${_id}`)}
+              aria-label="comment"
+            >
               <CommentRoundedIcon />
             </IconButton>
             <Typography sx={{ color: "text.secondary" }} variant="body2">
               {comments.length}
             </Typography>
           </Box>
-          <IconButton aria-label="bookmark">
-            <BookmarkBorderRoundedIcon />
+          <IconButton
+            disabled={disableBtn}
+            onClick={bookmarkClickHandler}
+            aria-label="bookmark"
+          >
+            {inBookmark ? (
+              <BookmarkRoundedIcon />
+            ) : (
+              <BookmarkBorderRoundedIcon />
+            )}
           </IconButton>
         </Box>
       </CommonBox>

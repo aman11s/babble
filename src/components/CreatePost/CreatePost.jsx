@@ -44,7 +44,7 @@ export const CreatePost = () => {
 
   return (
     <>
-      <CommonBox my={2}>
+      <CommonBox my={4}>
         <Typography sx={{ pb: 2 }} variant="h6">
           Create Post
         </Typography>
