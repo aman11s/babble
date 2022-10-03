@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { editPost } from "../post/postSlice";
 
 export const addToBookmark = createAsyncThunk(
   "bookmark/addToBookmark",
@@ -48,6 +47,25 @@ export const removeFromBookmark = createAsyncThunk(
   }
 );
 
+export const getAllBookmarks = createAsyncThunk(
+  "bookmark/getAllBookmarks",
+  async ({ token }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "GET",
+        url: "/api/users/bookmark",
+        headers: { authorization: token },
+      });
+      if (status === 200) {
+        return { getAllBookmarks: data.bookmarks };
+      }
+    } catch (e) {
+      console.error(e);
+      return rejectWithValue(e);
+    }
+  }
+);
+
 const initialState = {
   bookmarks: [],
   state: "idle",
@@ -82,14 +100,16 @@ export const bookmartSlice = createSlice({
       state.status = "rejected";
     },
 
-    // Consume edited post
-    [editPost.fulfilled]: (state, { payload }) => {
-      const { editPost, editPostId } = payload;
-      const getEditedPost = editPost.find(({ _id }) => _id === editPostId);
-      const getEditedPostIndexInBookmark = state.bookmarks.findIndex(
-        ({ _id }) => _id === getEditedPost._id
-      );
-      state.bookmarks[getEditedPostIndexInBookmark] = getEditedPost;
+    // Get all bookmarks
+    [getAllBookmarks.pending]: (state) => {
+      state.status = "pending";
+    },
+    [getAllBookmarks.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.bookmarks = payload.getAllBookmarks;
+    },
+    [getAllBookmarks.rejected]: (state) => {
+      state.status = "rejected";
     },
   },
 });
