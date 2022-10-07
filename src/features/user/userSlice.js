@@ -42,6 +42,23 @@ export const unfollowHandler = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "user/getUser",
+  async ({ username }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "GET",
+        url: `/api/users/${username}`,
+      });
+      if (status === 200) {
+        return { getUser: data.user };
+      }
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
 const initialState = {
   user: JSON.parse(localStorage.getItem("userData"))?.user || {},
   status: "idle",
@@ -75,6 +92,17 @@ export const userSlice = createSlice({
       state.user.following = payload.unfollow;
     },
     [unfollowHandler.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Get User
+    [getUser.pending]: (state) => {
+      state.status = "pending";
+    },
+    [getUser.fulfilled]: (state) => {
+      state.status = "fulfilled";
+    },
+    [getUser.rejected]: (state) => {
       state.status = "rejected";
     },
   },
