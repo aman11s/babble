@@ -12,3 +12,4 @@ export { EditPostModal } from "./EditPostModal/EditPostModal";
 export { CommentCard } from "./CommentCard/CommentCard";
 export { PostComment } from "./PostComment/PostComment";
 export { EditCommentModal } from "./EditCommentModal/EditCommentModal";
+export { ProfileCard } from "./ProfileCard/ProfileCard";
