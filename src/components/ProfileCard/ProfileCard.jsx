@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 export const ProfileCard = ({ singleUser }) => {
   const { posts } = useSelector((store) => store.posts);
 
-  const loggedUserPosts = posts.filter(
+  const totalPosts = posts.filter(
     (post) => post.username === singleUser?.username
   );
 
@@ -25,7 +25,7 @@ export const ProfileCard = ({ singleUser }) => {
 
     return (
       <>
-        <CommonBox>
+        <CommonBox my={4}>
           <Box
             sx={{
               display: "flex",
@@ -68,7 +68,7 @@ export const ProfileCard = ({ singleUser }) => {
               </Link>
               <Box sx={{ display: "flex", gap: 2 }}>
                 <Box sx={{ textAlign: "center" }}>
-                  <Box>{loggedUserPosts?.length}</Box>
+                  <Box>{totalPosts?.length}</Box>
                   <Typography variant="body1">Posts</Typography>
                 </Box>
                 <Box sx={{ textAlign: "center" }}>
