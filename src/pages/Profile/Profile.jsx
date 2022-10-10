@@ -1,11 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CommonBox, PostCard, ProfileCard } from "../../components";
+import { PostCard, PostHeader, ProfileCard } from "../../components";
 import { getAllPosts, getUser, getUserPost } from "../../features";
 import { useEffect } from "react";
 import { ClipLoader } from "react-spinners";
-import FeedRoundedIcon from "@mui/icons-material/FeedRounded";
 import { getSortedPosts } from "../../utils";
 
 export const Profile = () => {
@@ -16,6 +15,7 @@ export const Profile = () => {
 
   const [singleUser, setSingleUser] = useState();
   const [singleUserPost, setSingleUserPost] = useState();
+  const [selectPostHeader, setSelectPostHeader] = useState("Posts");
 
   useEffect(() => {
     dispatch(getAllPosts());
@@ -44,12 +44,17 @@ export const Profile = () => {
 
   const showPostLoader = postStatus === "pending" && !singleUserPost;
 
-  const loggedUserPostsId = singleUserPost?.map(({ _id }) => _id);
-  const loggedUserPosts = posts.filter(({ _id }) =>
-    loggedUserPostsId?.includes(_id)
-  );
+  const loggedUserPosts = posts.filter(({ _id }) => {
+    const loggedUserPostsId = singleUserPost?.map(({ _id }) => _id);
+    return loggedUserPostsId?.includes(_id);
+  });
 
   const latestPosts = getSortedPosts(loggedUserPosts, "Latest");
+
+  const likedPosts = posts.filter((post) => {
+    const likedBy = post.likes.likedBy;
+    return likedBy.some(({ username }) => username === user.username);
+  });
 
   if (userStatus === "pending") {
     return (
@@ -63,27 +68,30 @@ export const Profile = () => {
     <>
       <ProfileCard singleUser={singleUser} />
 
-      <CommonBox>
-        <Typography
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-          variant="h6"
-        >
-          <Box sx={{ pr: 1 }}>All Posts</Box> <FeedRoundedIcon />
-        </Typography>
-      </CommonBox>
+      <PostHeader
+        selectPostHeader={selectPostHeader}
+        setSelectPostHeader={setSelectPostHeader}
+      />
 
-      {showPostLoader && (
+      {showPostLoader ? (
         <Box sx={{ textAlign: "center", my: 4 }}>
           <ClipLoader speedMultiplier={3} size={30} />
         </Box>
+      ) : selectPostHeader === "Posts" ? (
+        latestPosts.length ? (
+          latestPosts.map((post) => <PostCard key={post.id} post={post} />)
+        ) : (
+          <Typography sx={{ textAlign: "center" }} variant="h6">
+            You haven't post anything yet
+          </Typography>
+        )
+      ) : likedPosts.length ? (
+        likedPosts.map((post) => <PostCard key={post.id} post={post} />)
+      ) : (
+        <Typography sx={{ textAlign: "center" }} variant="h6">
+          No Liked Post
+        </Typography>
       )}
-
-      {latestPosts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
     </>
   );
 };
