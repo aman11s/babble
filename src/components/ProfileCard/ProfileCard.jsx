@@ -1,16 +1,31 @@
-import { Avatar, Box, Button, Link, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Link,
+  MenuItem,
+  MenuList,
+  Paper,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { CommonBox } from "../CommonBox/CommonBox";
 import InsertLinkRoundedIcon from "@mui/icons-material/InsertLinkRounded";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { EditProfileModal } from "../EditProfileModal/EditProfileModal";
 import { grey } from "@mui/material/colors";
+import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
+import { logoutHandler } from "../../features";
 
 export const ProfileCard = ({ singleUser }) => {
   const { posts } = useSelector((store) => store.posts);
 
+  const dispatch = useDispatch();
+
   const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
+  const [menuActive, setMenuActive] = useState(false);
 
   const closeEditProfileModal = () => setOpenEditProfileModal(false);
 
@@ -40,6 +55,7 @@ export const ProfileCard = ({ singleUser }) => {
               flexWrap: "wrap",
               alignItems: "center",
               gap: 2,
+              position: "relative",
             }}
           >
             <Box>
@@ -52,6 +68,29 @@ export const ProfileCard = ({ singleUser }) => {
                 alt="user-avatar"
                 src={avatarURL}
               />
+            </Box>
+            <Box sx={{ position: "absolute", top: 0, right: 0 }}>
+              <IconButton
+                onClick={() => setMenuActive(!menuActive)}
+                aria-label="menu"
+              >
+                <MoreVertRoundedIcon />
+              </IconButton>
+              {menuActive && (
+                <Paper
+                  sx={{ position: "absolute", top: "2.5rem", right: "-2rem" }}
+                  elevation={2}
+                >
+                  <MenuList>
+                    <MenuItem
+                      onClick={() => dispatch(logoutHandler())}
+                      sx={{ color: "red" }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </MenuList>
+                </Paper>
+              )}
             </Box>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               <Typography sx={{ fontWeight: 600 }} variant="h6">
