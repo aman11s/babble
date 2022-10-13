@@ -56,7 +56,7 @@ export const Profile = () => {
     return likedBy.some(({ username }) => username === user.username);
   });
 
-  if (userStatus === "pending") {
+  if (userStatus === "pending" && !singleUser) {
     return (
       <Box sx={{ textAlign: "center", my: 4 }}>
         <ClipLoader speedMultiplier={3} size={30} />
