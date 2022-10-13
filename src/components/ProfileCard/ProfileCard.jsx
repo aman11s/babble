@@ -5,6 +5,7 @@ import InsertLinkRoundedIcon from "@mui/icons-material/InsertLinkRounded";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { EditProfileModal } from "../EditProfileModal/EditProfileModal";
+import { grey } from "@mui/material/colors";
 
 export const ProfileCard = ({ singleUser }) => {
   const { posts } = useSelector((store) => store.posts);
@@ -44,6 +45,7 @@ export const ProfileCard = ({ singleUser }) => {
             <Box>
               <Avatar
                 sx={{
+                  border: `1px solid ${grey[500]}`,
                   height: 120,
                   width: 120,
                 }}
