@@ -26,6 +26,7 @@ import {
 } from "../../features";
 import { useCustomToast } from "../../hooks";
 import { useNavigate } from "react-router-dom";
+import { grey } from "@mui/material/colors";
 
 export const PostCard = ({ post }) => {
   const {
@@ -113,6 +114,7 @@ export const PostCard = ({ post }) => {
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             sx={{
+              border: `1px solid ${grey[500]}`,
               height: 55,
               width: 55,
             }}

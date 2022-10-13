@@ -60,9 +60,11 @@ export const Navbar = () => {
             }}
           >
             <NavLink to="/">
-              <Avatar sx={{ mx: 2 }}>
-                <img src={logo} alt="logo" width="40px" />
-              </Avatar>
+              <Avatar
+                sx={{ mx: 2, height: 40, width: 40 }}
+                src={logo}
+                alt="logo"
+              />
             </NavLink>
             <List sx={{ display: "flex", py: 1 }}>
               {icons.map(({ id, comp, route }) => {
@@ -79,7 +81,11 @@ export const Navbar = () => {
                   <Avatar
                     alt="user-icon"
                     src={user.avatarURL}
-                    sx={{ width: 45, height: 45 }}
+                    sx={{
+                      border: `1px solid ${grey[500]}`,
+                      width: 45,
+                      height: 45,
+                    }}
                   />
                 </NavLink>
               </ListItem>
