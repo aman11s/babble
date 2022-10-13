@@ -1,5 +1,10 @@
 export { loginHandler, signupHandler, logoutHandler } from "./auth/authSlice";
-export { followHandler, unfollowHandler, getUser } from "./user/userSlice";
+export {
+  followHandler,
+  unfollowHandler,
+  getUser,
+  editUser,
+} from "./user/userSlice";
 export {
   getAllPosts,
   createPost,

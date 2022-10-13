@@ -59,6 +59,26 @@ export const getUser = createAsyncThunk(
   }
 );
 
+export const editUser = createAsyncThunk(
+  "user/editUser",
+  async ({ token, userData }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "POST",
+        url: "/api/users/edit",
+        headers: { authorization: token },
+        data: { userData },
+      });
+      if (status === 201) {
+        return { editUser: data.user };
+      }
+    } catch (e) {
+      console.error(e);
+      return rejectWithValue(e);
+    }
+  }
+);
+
 const initialState = {
   user: JSON.parse(localStorage.getItem("userData"))?.user || {},
   status: "idle",
@@ -103,6 +123,18 @@ export const userSlice = createSlice({
       state.status = "fulfilled";
     },
     [getUser.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Edit User
+    [editUser.pending]: (state) => {
+      state.status = "pending";
+    },
+    [editUser.fulfilled]: (state, { payload }) => {
+      state.status = "fulfilled";
+      state.user = payload.editUser;
+    },
+    [editUser.rejected]: (state) => {
       state.status = "rejected";
     },
   },
