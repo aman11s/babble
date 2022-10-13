@@ -51,7 +51,6 @@ export const CreatePost = () => {
         <Box sx={{ display: "flex", gap: 2 }}>
           <Avatar
             sx={{
-              backgroundColor: grey[500],
               border: `1px solid ${grey[500]}`,
               height: 60,
               width: 60,
