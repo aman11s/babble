@@ -3,9 +3,15 @@ import React from "react";
 import { CommonBox } from "../CommonBox/CommonBox";
 import InsertLinkRoundedIcon from "@mui/icons-material/InsertLinkRounded";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import { EditProfileModal } from "../EditProfileModal/EditProfileModal";
 
 export const ProfileCard = ({ singleUser }) => {
   const { posts } = useSelector((store) => store.posts);
+
+  const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
+
+  const closeEditProfileModal = () => setOpenEditProfileModal(false);
 
   const totalPosts = posts.filter(
     (post) => post.username === singleUser?.username
@@ -80,7 +86,18 @@ export const ProfileCard = ({ singleUser }) => {
                   <Typography variant="body1">Following</Typography>
                 </Box>
               </Box>
-              <Button variant="outlined">Edit Profile</Button>
+              <Button
+                onClick={() => setOpenEditProfileModal(true)}
+                variant="outlined"
+              >
+                Edit Profile
+              </Button>
+              {openEditProfileModal && (
+                <EditProfileModal
+                  openEditProfileModal={openEditProfileModal}
+                  closeEditProfileModal={closeEditProfileModal}
+                />
+              )}
             </Box>
           </Box>
         </CommonBox>
