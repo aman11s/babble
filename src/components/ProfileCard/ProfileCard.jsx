@@ -18,6 +18,8 @@ import { EditProfileModal } from "../EditProfileModal/EditProfileModal";
 import { grey } from "@mui/material/colors";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { logoutHandler } from "../../features";
+import { Followers } from "../Followers/Followers";
+import { Following } from "../Following/Following";
 
 export const ProfileCard = ({ singleUser }) => {
   const { posts } = useSelector((store) => store.posts);
@@ -26,8 +28,12 @@ export const ProfileCard = ({ singleUser }) => {
 
   const [openEditProfileModal, setOpenEditProfileModal] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
+  const [openFollowersModal, setOpenFollowersModal] = useState(false);
+  const [openFollowingModal, setOpenFollowingModal] = useState(false);
 
   const closeEditProfileModal = () => setOpenEditProfileModal(false);
+  const closeFollowersModal = () => setOpenFollowersModal(false);
+  const closeFollowingModal = () => setOpenFollowingModal(false);
 
   const totalPosts = posts.filter(
     (post) => post.username === singleUser?.username
@@ -120,12 +126,44 @@ export const ProfileCard = ({ singleUser }) => {
                 </Box>
                 <Box sx={{ textAlign: "center" }}>
                   <Box>{followers.length}</Box>
-                  <Typography variant="body1">Followers</Typography>
+                  <Typography
+                    onClick={() => setOpenFollowersModal(true)}
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": { textDecoration: "underline" },
+                    }}
+                    variant="body1"
+                  >
+                    Followers
+                  </Typography>
                 </Box>
+                {openFollowersModal && (
+                  <Followers
+                    followers={followers}
+                    openFollowersModal={openFollowersModal}
+                    closeFollowersModal={closeFollowersModal}
+                  />
+                )}
                 <Box sx={{ textAlign: "center" }}>
                   <Box>{following.length}</Box>
-                  <Typography variant="body1">Following</Typography>
+                  <Typography
+                    onClick={() => setOpenFollowingModal(true)}
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": { textDecoration: "underline" },
+                    }}
+                    variant="body1"
+                  >
+                    Following
+                  </Typography>
                 </Box>
+                {openFollowingModal && (
+                  <Following
+                    following={following}
+                    openFollowingModal={openFollowingModal}
+                    closeFollowingModal={closeFollowingModal}
+                  />
+                )}
               </Box>
               <Button
                 onClick={() => setOpenEditProfileModal(true)}
