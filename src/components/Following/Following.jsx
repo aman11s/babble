@@ -50,7 +50,12 @@ export const Following = ({
           </Box>
           {following.length ? (
             following.map((user) => (
-              <UserHorizontalCard key={user.id} user={user} showBtn={true} />
+              <UserHorizontalCard
+                key={user.id}
+                user={user}
+                showBtn={true}
+                closeFollowingModal={closeFollowingModal}
+              />
             ))
           ) : (
             <Typography sx={{ textAlign: "center", my: 2.5 }} variant="body1">

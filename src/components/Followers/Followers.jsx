@@ -50,7 +50,12 @@ export const Followers = ({
           </Box>
           {followers.length ? (
             followers.map((user) => (
-              <UserHorizontalCard key={user.id} user={user} showBtn={false} />
+              <UserHorizontalCard
+                key={user.id}
+                user={user}
+                showBtn={false}
+                closeFollowersModal={closeFollowersModal}
+              />
             ))
           ) : (
             <Typography sx={{ textAlign: "center", my: 2.5 }} variant="body1">
