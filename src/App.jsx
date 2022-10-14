@@ -6,10 +6,10 @@ import {
   Bookmark,
   Explore,
   Home,
-  Profile,
   Signin,
   Signup,
   SinglePost,
+  SingleUser,
 } from "./pages";
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/bookmark" element={<Bookmark />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/:profileId" element={<SingleUser />} />
               <Route path="/post/:postId" element={<SinglePost />} />
             </Route>
           </Routes>

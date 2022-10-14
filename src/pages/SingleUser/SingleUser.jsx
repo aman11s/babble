@@ -6,11 +6,16 @@ import { getAllPosts, getUser, getUserPost } from "../../features";
 import { useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { getSortedPosts } from "../../utils";
+import { useParams } from "react-router-dom";
 
-export const Profile = () => {
+export const SingleUser = () => {
+  const { profileId: username } = useParams();
+
   const dispatch = useDispatch();
 
-  const { user, status: userStatus } = useSelector((store) => store.user);
+  const { user: loggedUser, status: userStatus } = useSelector(
+    (store) => store.user
+  );
   const { posts, status: postStatus } = useSelector((store) => store.posts);
 
   const [singleUser, setSingleUser] = useState();
@@ -25,13 +30,13 @@ export const Profile = () => {
     (async () => {
       try {
         const { meta: userMeta, payload: userPayload } = await dispatch(
-          getUser({ username: user.username })
+          getUser({ username })
         );
         if (userMeta.requestStatus === "fulfilled") {
           setSingleUser(userPayload.getUser);
         }
         const { meta: postMeta, payload: postPayload } = await dispatch(
-          getUserPost({ username: user.username })
+          getUserPost({ username })
         );
         if (postMeta.requestStatus === "fulfilled") {
           setSingleUserPost(postPayload.getUserPost);
@@ -40,7 +45,7 @@ export const Profile = () => {
         console.error(e);
       }
     })();
-  }, [dispatch, user]);
+  }, [dispatch, username, loggedUser]);
 
   const showPostLoader = postStatus === "pending" && !singleUserPost;
 
@@ -53,7 +58,7 @@ export const Profile = () => {
 
   const likedPosts = posts.filter((post) => {
     const likedBy = post.likes.likedBy;
-    return likedBy.some(({ username }) => username === user.username);
+    return likedBy.some((user) => username === user.username);
   });
 
   if (userStatus === "pending" && !singleUser) {
@@ -64,11 +69,14 @@ export const Profile = () => {
     );
   }
 
+  const isMyProfile = username === loggedUser.username;
+
   return (
     <>
-      <ProfileCard singleUser={singleUser} />
+      <ProfileCard singleUser={singleUser} isMyProfile={isMyProfile} />
 
       <PostHeader
+        isMyProfile={isMyProfile}
         selectPostHeader={selectPostHeader}
         setSelectPostHeader={setSelectPostHeader}
       />

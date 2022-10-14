@@ -5,11 +5,19 @@ import { useCustomToast } from "../../hooks";
 import { unfollowHandler } from "../../features";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingButton } from "@mui/lab";
+import { useNavigate } from "react-router-dom";
 
-export const UserHorizontalCard = ({ user, showBtn }) => {
+export const UserHorizontalCard = ({
+  user,
+  showBtn,
+  closeFollowingModal,
+  closeFollowersModal,
+}) => {
   const { _id, firstName, lastName, username, avatarURL } = user;
 
   const [disableBtn, setDisableBtn] = useState(false);
+
+  const navigate = useNavigate();
 
   const {
     userData: { token },
@@ -33,10 +41,19 @@ export const UserHorizontalCard = ({ user, showBtn }) => {
     }
   };
 
+  const userClickHandler = () => {
+    closeFollowersModal && closeFollowersModal();
+    closeFollowingModal && closeFollowingModal();
+    navigate(`/profile/${username}`);
+  };
+
   return (
     <>
       <Box sx={{ my: 2.5 }}>
-        <Box sx={{ display: "flex", cursor: "pointer", my: 2 }}>
+        <Box
+          onClick={userClickHandler}
+          sx={{ display: "flex", cursor: "pointer", my: 2 }}
+        >
           <Avatar
             sx={{
               border: `1px solid ${grey[500]}`,
