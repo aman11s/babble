@@ -124,7 +124,14 @@ export const PostCard = ({ post }) => {
             alt="user-avatar"
             src={isMyPost ? user.avatarURL : avatarURL}
           />
-          <Box sx={{ pl: 2 }}>
+          <Box
+            onClick={() => navigate(`profile/${username}`)}
+            sx={{
+              pl: 2,
+              cursor: "pointer",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
             <Typography sx={{ fontWeight: 550 }} variant="body1">
               <Box component="span">{firstName}</Box>{" "}
               <Box component="span">{lastName}</Box>
