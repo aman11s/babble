@@ -107,6 +107,23 @@ export const likeUnlikePost = createAsyncThunk(
   }
 );
 
+export const getUserPost = createAsyncThunk(
+  "post/getUserPost",
+  async ({ username }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "GET",
+        url: `/api/posts/user/${username}`,
+      });
+      if (status === 200) {
+        return { getUserPost: data.posts };
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+);
+
 const initialState = {
   posts: [],
   status: "idle",
@@ -218,6 +235,17 @@ export const postSlice = createSlice({
       foundPost.comments = payload.editComment;
     },
     [editComment.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Get User post
+    [getUserPost.pending]: (state) => {
+      state.status = "pending";
+    },
+    [getUserPost.fulfilled]: (state) => {
+      state.status = "fulfilled";
+    },
+    [getUserPost.rejected]: (state) => {
       state.status = "rejected";
     },
   },

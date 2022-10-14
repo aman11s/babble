@@ -22,6 +22,8 @@ export const loginHandler = createAsyncThunk(
             followers,
             following,
             avatarURL,
+            bio,
+            websiteLink,
           },
         } = data;
         return {
@@ -34,6 +36,8 @@ export const loginHandler = createAsyncThunk(
               followers,
               following,
               avatarURL,
+              bio,
+              websiteLink,
             },
           },
         };
@@ -69,6 +73,8 @@ export const signupHandler = createAsyncThunk(
             followers,
             following,
             avatarURL,
+            bio,
+            websiteLink,
           },
         } = data;
         return {
@@ -81,6 +87,8 @@ export const signupHandler = createAsyncThunk(
               followers,
               following,
               avatarURL,
+              bio,
+              websiteLink,
             },
           },
         };

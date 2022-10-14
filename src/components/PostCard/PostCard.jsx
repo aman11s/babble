@@ -26,6 +26,7 @@ import {
 } from "../../features";
 import { useCustomToast } from "../../hooks";
 import { useNavigate } from "react-router-dom";
+import { grey } from "@mui/material/colors";
 
 export const PostCard = ({ post }) => {
   const {
@@ -43,8 +44,9 @@ export const PostCard = ({ post }) => {
   const time = getTime(createdAt);
 
   const {
-    userData: { user, token },
+    userData: { token },
   } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.user);
   const { bookmarks } = useSelector((store) => store.bookmarks);
 
   const dispatch = useDispatch();
@@ -107,17 +109,20 @@ export const PostCard = ({ post }) => {
     }
   };
 
+  const isMyPost = username === user.username;
+
   return (
     <>
       <CommonBox my={4} disable={disableComp}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Avatar
             sx={{
+              border: `1px solid ${grey[500]}`,
               height: 55,
               width: 55,
             }}
             alt="user-avatar"
-            src={avatarURL}
+            src={isMyPost ? user.avatarURL : avatarURL}
           />
           <Box sx={{ pl: 2 }}>
             <Typography sx={{ fontWeight: 550 }} variant="body1">

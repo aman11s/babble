@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { followHandler, unfollowHandler } from "../../features";
 import { isAlreadyFollowing } from "../../utils";
 import { useCustomToast } from "../../hooks";
+import { grey } from "@mui/material/colors";
 
 export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
   const dispatch = useDispatch();
@@ -66,7 +67,11 @@ export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
         <Avatar
           src={avatarURL}
           alt="user-dp"
-          sx={{ width: "5rem", height: "5rem" }}
+          sx={{
+            border: `1px solid ${grey[500]}`,
+            width: "5rem",
+            height: "5rem",
+          }}
         />
         <Box sx={{ py: 2, textAlign: "center" }}>
           <Typography variant="body1">
