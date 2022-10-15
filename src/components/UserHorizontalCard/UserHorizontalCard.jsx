@@ -50,10 +50,7 @@ export const UserHorizontalCard = ({
   return (
     <>
       <Box sx={{ my: 2.5 }}>
-        <Box
-          onClick={userClickHandler}
-          sx={{ display: "flex", cursor: "pointer", my: 2 }}
-        >
+        <Box sx={{ display: "flex", my: 2 }}>
           <Avatar
             sx={{
               border: `1px solid ${grey[500]}`,
@@ -63,7 +60,14 @@ export const UserHorizontalCard = ({
             alt="user-avatar"
             src={avatarURL}
           />
-          <Box sx={{ pl: 2 }}>
+          <Box
+            onClick={userClickHandler}
+            sx={{
+              pl: 2,
+              cursor: "pointer",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
             <Typography sx={{ fontWeight: 550 }} variant="body1">
               <Box component="span">{firstName}</Box>{" "}
               <Box component="span">{lastName}</Box>
