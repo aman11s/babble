@@ -10,7 +10,7 @@ export const Users = () => {
   const [users, setUsers] = useState([]);
   const [loader, setLoader] = useState(false);
 
-  const { userData } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.user);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +37,7 @@ export const Users = () => {
   };
 
   const filteredUsers = users.filter(
-    ({ username }) => username !== userData?.user.username
+    ({ username }) => username !== user.username
   );
 
   return (
