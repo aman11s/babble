@@ -68,7 +68,7 @@ export const SinglePost = () => {
         </>
       )}
 
-      {singlePost && <PostCard post={singlePost} />}
+      {singlePost && <PostCard post={singlePost} singlePost={true} />}
 
       {allComments && (
         <>
