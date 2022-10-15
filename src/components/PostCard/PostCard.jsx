@@ -125,7 +125,7 @@ export const PostCard = ({ post }) => {
             src={isMyPost ? user.avatarURL : avatarURL}
           />
           <Box
-            onClick={() => navigate(`profile/${username}`)}
+            onClick={() => navigate(`/profile/${username}`)}
             sx={{
               pl: 2,
               cursor: "pointer",
