@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { PostCard } from "../../components";
@@ -10,25 +9,32 @@ export const Bookmark = () => {
   const {
     userData: { token },
   } = useSelector((store) => store.auth);
-  const { bookmarks } = useSelector((store) => store.bookmarks);
-  const { posts, status } = useSelector((store) => store.posts);
+  const { status: bookmarkStatus } = useSelector((store) => store.bookmarks);
+  const { posts } = useSelector((store) => store.posts);
 
   const dispatch = useDispatch();
 
+  const [bookmarks, setBookmarks] = useState();
+
   useEffect(() => {
     (async () => {
-      if (status === "idle") {
-        await dispatch(getAllBookmarks({ token }));
+      try {
+        const { meta, payload } = await dispatch(getAllBookmarks({ token }));
+        if (meta.requestStatus === "fulfilled") {
+          setBookmarks(payload.getAllBookmarks);
+        }
+      } catch (e) {
+        console.error(e);
       }
     })();
-  }, [status, dispatch, token]);
+  }, [dispatch, token, bookmarks]);
 
-  const bookmarkedPostId = bookmarks?.map(({ _id }) => _id);
-  const bookmarkedPosts = posts.filter(({ _id }) =>
-    bookmarkedPostId?.includes(_id)
-  );
+  const bookmarkedPosts = posts.filter((post) => {
+    const bookmarkedPostId = bookmarks?.map(({ _id }) => _id);
+    return bookmarkedPostId?.includes(post._id);
+  });
 
-  if (status === "pending" && !bookmarks) {
+  if (bookmarkStatus === "pending" && !bookmarks) {
     return (
       <Box sx={{ textAlign: "center", my: 4 }}>
         <ClipLoader speedMultiplier={3} size={30} />{" "}

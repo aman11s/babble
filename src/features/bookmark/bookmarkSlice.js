@@ -104,9 +104,8 @@ export const bookmartSlice = createSlice({
     [getAllBookmarks.pending]: (state) => {
       state.status = "pending";
     },
-    [getAllBookmarks.fulfilled]: (state, { payload }) => {
+    [getAllBookmarks.fulfilled]: (state) => {
       state.status = "fulfilled";
-      state.bookmarks = payload.getAllBookmarks;
     },
     [getAllBookmarks.rejected]: (state) => {
       state.status = "rejected";
