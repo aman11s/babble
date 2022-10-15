@@ -92,7 +92,7 @@ export const users = [
     avatarURL:
       "https://pbs.twimg.com/profile_images/1481869646018265088/SgTPHx3S_400x400.jpg",
     bio: "Open Source ❤ @chakra_ui",
-    siteLink: "https://sohamsshah.vercel.app/",
+    websiteLink: "https://sohamsshah.vercel.app/",
     createdAt: formatDate(),
     updatedAt: formatDate(),
   },
