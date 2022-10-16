@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { UserCard } from "../../components";
 import { ClipLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers } from "../../features/user/userSlice";
+import { getAllUsers } from "../../features";
 
 export const Users = () => {
   const [showUsers, setShowUsers] = useState(true);

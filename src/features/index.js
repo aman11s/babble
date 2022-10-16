@@ -4,6 +4,7 @@ export {
   unfollowHandler,
   getUser,
   editUser,
+  getAllUsers,
 } from "./user/userSlice";
 export {
   getAllPosts,
