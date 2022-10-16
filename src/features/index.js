@@ -13,6 +13,7 @@ export {
   sortByHandler,
   likeUnlikePost,
   getUserPost,
+  getSinglePost,
 } from "./post/postSlice";
 export {
   addToBookmark,
