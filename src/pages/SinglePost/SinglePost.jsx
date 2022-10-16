@@ -1,51 +1,46 @@
 import { Box, Button, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { CommentCard } from "../../components/CommentCard/CommentCard";
 import { PostCard } from "../../components/PostCard/PostCard";
 import NotesRoundedIcon from "@mui/icons-material/NotesRounded";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PostComment } from "../../components/PostComment/PostComment";
+import { getSinglePost } from "../../features";
 
 export const SinglePost = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const { posts } = useSelector((store) => store.posts);
+  const { posts, status: postStatus } = useSelector((store) => store.posts);
   const { comments } = useSelector((store) => store.comments);
 
   const [singlePost, setSinglePost] = useState();
-  const [loader, setLoader] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
-        setLoader(true);
-        const { data, status } = await axios({
-          method: "GET",
-          url: `/api/posts/${postId}`,
-        });
-        if (status === 200) {
-          setSinglePost(data?.post);
+        const { meta, payload } = await dispatch(getSinglePost({ postId }));
+        if (meta.requestStatus === "fulfilled") {
+          setSinglePost(payload.getSinglePost);
+        }
+        if (meta.requestStatus === "rejected") {
+          setError("Failed to load Post");
         }
       } catch (e) {
-        setError("Failed to load post");
         console.error(e);
-      } finally {
-        setLoader(false);
       }
     })();
-  }, [postId, posts, comments]);
+  }, [dispatch, postId, comments]);
 
-  // Find comments for singlePost from all Posts
-  const allComments = posts.find(
-    ({ _id }) => singlePost?._id === _id
-  )?.comments;
+  // Find singlePost from all Posts
+  const currentPost = posts.find(({ _id }) => singlePost?._id === _id);
+  const allComments = currentPost?.comments;
 
-  if (loader && !singlePost) {
+  if (postStatus === "pending" && !singlePost) {
     return (
       <Box sx={{ textAlign: "center", my: 4 }}>
         <ClipLoader speedMultiplier={3} size={30} />{" "}
@@ -68,7 +63,7 @@ export const SinglePost = () => {
         </>
       )}
 
-      {singlePost && <PostCard post={singlePost} singlePost={true} />}
+      {singlePost && <PostCard post={currentPost} singlePost={true} />}
 
       {allComments && (
         <>

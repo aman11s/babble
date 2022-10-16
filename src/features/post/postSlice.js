@@ -124,6 +124,23 @@ export const getUserPost = createAsyncThunk(
   }
 );
 
+export const getSinglePost = createAsyncThunk(
+  "post/getSinglePost",
+  async ({ postId }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "GET",
+        url: `/api/posts/${postId}`,
+      });
+      if (status === 200) {
+        return { getSinglePost: data.post };
+      }
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
 const initialState = {
   posts: [],
   status: "idle",
@@ -197,6 +214,17 @@ export const postSlice = createSlice({
       state.status = "fulfilled";
     },
     [getUserPost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Get single post
+    [getSinglePost.pending]: (state) => {
+      state.status = "pending";
+    },
+    [getSinglePost.fulfilled]: (state) => {
+      state.status = "fulfilled";
+    },
+    [getSinglePost.rejected]: (state) => {
       state.status = "rejected";
     },
   },
