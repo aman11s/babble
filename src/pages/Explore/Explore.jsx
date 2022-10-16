@@ -1,8 +1,31 @@
-import React from "react";
-import { IconButton, InputBase, Paper, Typography } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, IconButton, InputBase, Paper, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPosts } from "../../features";
+import { getSortedPosts } from "../../utils/utils";
+import { PostCard } from "../../components";
+import { ClipLoader } from "react-spinners";
 
 export const Explore = () => {
+  const dispatch = useDispatch();
+
+  const { posts, status: postStatus } = useSelector((store) => store.posts);
+
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, [dispatch]);
+
+  const sortedPosts = getSortedPosts(posts, "Trending");
+
+  if (postStatus === "pending") {
+    return (
+      <Box sx={{ textAlign: "center", my: 4 }}>
+        <ClipLoader speedMultiplier={3} size={30} />{" "}
+      </Box>
+    );
+  }
+
   return (
     <>
       <Typography
@@ -25,6 +48,10 @@ export const Explore = () => {
           <SearchIcon />
         </IconButton>
       </Paper>
+
+      {sortedPosts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
     </>
   );
 };
