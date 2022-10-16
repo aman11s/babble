@@ -15,7 +15,6 @@ export const SinglePost = () => {
   const dispatch = useDispatch();
 
   const { posts, status: postStatus } = useSelector((store) => store.posts);
-  const { comments } = useSelector((store) => store.comments);
 
   const [singlePost, setSinglePost] = useState();
   const [error, setError] = useState(null);
@@ -34,7 +33,7 @@ export const SinglePost = () => {
         console.error(e);
       }
     })();
-  }, [dispatch, postId, comments]);
+  }, [dispatch, postId]);
 
   // Find singlePost from all Posts
   const currentPost = posts.find(({ _id }) => singlePost?._id === _id);
