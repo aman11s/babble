@@ -39,7 +39,7 @@ export const SinglePost = () => {
   const currentPost = posts.find(({ _id }) => singlePost?._id === _id);
   const allComments = currentPost?.comments;
 
-  if (postStatus === "pending" && !singlePost) {
+  if (postStatus === "pending") {
     return (
       <Box sx={{ textAlign: "center", my: 4 }}>
         <ClipLoader speedMultiplier={3} size={30} />{" "}
