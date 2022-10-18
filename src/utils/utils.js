@@ -91,3 +91,15 @@ export const isAlreadyInBookmark = (allBookmarks, bookmarkPostId) =>
 
 export const isAlreadyLikedPost = (allLikes, loggedUser) =>
   allLikes.some(({ username }) => username === loggedUser.username);
+
+export const getUsersByQuery = (users, query) => {
+  if (query === "") {
+    return [];
+  }
+  return users.filter(({ firstName, lastName, username }) => {
+    return [firstName, lastName, username]
+      .join("")
+      .toLowerCase()
+      .includes(query.toLowerCase());
+  });
+};

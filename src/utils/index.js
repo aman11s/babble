@@ -4,4 +4,5 @@ export {
   getSortedPosts,
   isAlreadyInBookmark,
   isAlreadyLikedPost,
+  getUsersByQuery,
 } from "./utils";
