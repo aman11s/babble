@@ -17,7 +17,7 @@ export const Users = () => {
     (async () => {
       try {
         const { meta, payload } = await dispatch(getAllUsers());
-        if (meta.requestStatus) {
+        if (meta.requestStatus === "fulfilled") {
           setUsers(payload.getAllUsers);
         }
       } catch (e) {
