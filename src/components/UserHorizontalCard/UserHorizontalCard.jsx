@@ -12,6 +12,7 @@ export const UserHorizontalCard = ({
   showBtn,
   closeFollowingModal,
   closeFollowersModal,
+  searchCard,
 }) => {
   const { _id, firstName, lastName, username, avatarURL } = user;
 
@@ -49,8 +50,8 @@ export const UserHorizontalCard = ({
 
   return (
     <>
-      <Box sx={{ my: 2.5 }}>
-        <Box sx={{ display: "flex", my: 2 }}>
+      <Box sx={searchCard ? {} : { my: 2.5 }}>
+        <Box sx={searchCard ? { display: "flex" } : { display: "flex", my: 2 }}>
           <Avatar
             sx={{
               border: `1px solid ${grey[500]}`,
