@@ -7,6 +7,7 @@ import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { NavLink, useLocation } from "react-router-dom";
 import { grey } from "@mui/material/colors";
+import { useSelector } from "react-redux";
 
 const icons = [
   {
@@ -24,16 +25,15 @@ const icons = [
     comp: <BookmarkRoundedIcon fontSize="large" />,
     route: "/bookmark",
   },
-  {
-    id: 4,
-    comp: <PersonRoundedIcon fontSize="large" />,
-    route: "/profile",
-  },
 ];
 
 export const Navbar = () => {
   const theme = useTheme();
   const { pathname } = useLocation();
+
+  const {
+    user: { username },
+  } = useSelector((store) => store.user);
 
   const getActiveStyle = ({ isActive }) => ({
     textDecoration: "none",
@@ -80,6 +80,11 @@ export const Navbar = () => {
                   </ListItem>
                 );
               })}
+              <ListItem sx={{ mx: 1.5 }} disablePadding>
+                <NavLink style={getActiveStyle} to={`profile/${username}`}>
+                  <PersonRoundedIcon fontSize="large" />
+                </NavLink>
+              </ListItem>
             </List>
           </Box>
         </Box>

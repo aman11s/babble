@@ -74,7 +74,6 @@ export const editComment = createAsyncThunk(
 
 const initialState = {
   comments: [],
-  status: "idle",
 };
 
 export const commentSlice = createSlice({
@@ -83,38 +82,18 @@ export const commentSlice = createSlice({
   reducers: {},
   extraReducers: {
     // Add post comment
-    [addComment.pending]: (state) => {
-      state.status = "pending";
-    },
     [addComment.fulfilled]: (state, { payload }) => {
       state.comments = payload.addComment;
     },
-    [addComment.rejected]: (state) => {
-      state.status = "rejected";
-    },
 
     // Delete comment
-    [deleteComment.pending]: (state) => {
-      state.status = "pending";
-    },
     [deleteComment.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.comments = payload.deleteComment;
-    },
-    [deleteComment.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Edit Comment
-    [editComment.pending]: (state) => {
-      state.status = "pending";
-    },
     [editComment.fulfilled]: (state, { payload }) => {
-      state.staus = "fulfilled";
       state.comments = payload.editComment;
-    },
-    [editComment.rejected]: (state) => {
-      state.status = "rejected";
     },
   },
 });

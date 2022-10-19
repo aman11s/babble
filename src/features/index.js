@@ -4,6 +4,7 @@ export {
   unfollowHandler,
   getUser,
   editUser,
+  getAllUsers,
 } from "./user/userSlice";
 export {
   getAllPosts,
@@ -13,6 +14,7 @@ export {
   sortByHandler,
   likeUnlikePost,
   getUserPost,
+  getSinglePost,
 } from "./post/postSlice";
 export {
   addToBookmark,

@@ -6,6 +6,7 @@ import { followHandler, unfollowHandler } from "../../features";
 import { isAlreadyFollowing } from "../../utils";
 import { useCustomToast } from "../../hooks";
 import { grey } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
   const dispatch = useDispatch();
@@ -16,8 +17,9 @@ export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
   const {
     userData: { token },
   } = useSelector((store) => store.auth);
-
   const { user } = useSelector((store) => store.user);
+
+  const navigate = useNavigate();
 
   const isFollowed = isAlreadyFollowing(user, username);
 
@@ -73,7 +75,15 @@ export const UserCard = ({ avatarURL, firstName, lastName, username, _id }) => {
             height: "5rem",
           }}
         />
-        <Box sx={{ py: 2, textAlign: "center" }}>
+        <Box
+          onClick={() => navigate(`profile/${username}`)}
+          sx={{
+            py: 2,
+            textAlign: "center",
+            cursor: "pointer",
+            "&:hover": { textDecoration: "underline" },
+          }}
+        >
           <Typography variant="body1">
             <Box component="span">{firstName}</Box>{" "}
             <Box component="span">{lastName}</Box>

@@ -77,27 +77,13 @@ export const bookmartSlice = createSlice({
   reducers: {},
   extraReducers: {
     // Add to Bookmark
-    [addToBookmark.pending]: (state) => {
-      state.status = "pending";
-    },
     [addToBookmark.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.bookmarks = payload.addToBookmark;
-    },
-    [addToBookmark.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Remove from bookmark
-    [removeFromBookmark.pending]: (state) => {
-      state.status = "pending";
-    },
     [removeFromBookmark.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.bookmarks = payload.removeFromBookmark;
-    },
-    [removeFromBookmark.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Get all bookmarks

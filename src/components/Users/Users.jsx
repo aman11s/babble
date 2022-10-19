@@ -1,35 +1,30 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Box, Button, Typography } from "@mui/material";
 import { UserCard } from "../../components";
 import { ClipLoader } from "react-spinners";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../../features";
 
 export const Users = () => {
   const [showUsers, setShowUsers] = useState(true);
   const [users, setUsers] = useState([]);
-  const [loader, setLoader] = useState(false);
 
-  const { userData } = useSelector((store) => store.auth);
+  const { user, status: userStatus } = useSelector((store) => store.user);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       try {
-        setLoader(true);
-        const { data, status } = await axios({
-          method: "GET",
-          url: "/api/users",
-        });
-        if (status === 200) {
-          setUsers(data.users);
+        const { meta, payload } = await dispatch(getAllUsers());
+        if (meta.requestStatus === "fulfilled") {
+          setUsers(payload.getAllUsers);
         }
       } catch (e) {
         console.error(e);
-      } finally {
-        setLoader(false);
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   const override = {
     marginLeft: "auto",
@@ -37,7 +32,7 @@ export const Users = () => {
   };
 
   const filteredUsers = users.filter(
-    ({ username }) => username !== userData?.user.username
+    ({ username }) => username !== user.username
   );
 
   return (
@@ -63,7 +58,7 @@ export const Users = () => {
               py: "1rem",
             }}
           >
-            {loader ? (
+            {userStatus === "pending" ? (
               <ClipLoader
                 cssOverride={override}
                 speedMultiplier={3}

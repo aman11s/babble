@@ -1,6 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { PostCard } from "../../components";
@@ -10,25 +9,23 @@ export const Bookmark = () => {
   const {
     userData: { token },
   } = useSelector((store) => store.auth);
-  const { bookmarks } = useSelector((store) => store.bookmarks);
-  const { posts, status } = useSelector((store) => store.posts);
+  const { bookmarks, status: bookmarkStatus } = useSelector(
+    (store) => store.bookmarks
+  );
+  const { posts } = useSelector((store) => store.posts);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      if (status === "idle") {
-        await dispatch(getAllBookmarks({ token }));
-      }
-    })();
-  }, [status, dispatch, token]);
+    dispatch(getAllBookmarks({ token }));
+  }, [dispatch, token]);
 
-  const bookmarkedPostId = bookmarks?.map(({ _id }) => _id);
-  const bookmarkedPosts = posts.filter(({ _id }) =>
-    bookmarkedPostId?.includes(_id)
-  );
+  const bookmarkedPosts = posts.filter((post) => {
+    const bookmarkedPostId = bookmarks.map(({ _id }) => _id);
+    return bookmarkedPostId?.includes(post._id);
+  });
 
-  if (status === "pending" && !bookmarks) {
+  if (bookmarkStatus === "pending") {
     return (
       <Box sx={{ textAlign: "center", my: 4 }}>
         <ClipLoader speedMultiplier={3} size={30} />{" "}

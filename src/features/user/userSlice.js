@@ -79,6 +79,23 @@ export const editUser = createAsyncThunk(
   }
 );
 
+export const getAllUsers = createAsyncThunk(
+  "user/getAllUsers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "GET",
+        url: "/api/users",
+      });
+      if (status === 200) {
+        return { getAllUsers: data.users };
+      }
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
 const initialState = {
   user: JSON.parse(localStorage.getItem("userData"))?.user || {},
   status: "idle",
@@ -95,24 +112,13 @@ export const userSlice = createSlice({
     },
 
     // Follow Handler
-    [followHandler.pending]: (state) => {
-      state.status = "pending";
-    },
     [followHandler.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.user.following = payload.follow;
     },
 
     // Unfollow Handler
-    [unfollowHandler.pending]: (state) => {
-      state.status = "pending";
-    },
     [unfollowHandler.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.user.following = payload.unfollow;
-    },
-    [unfollowHandler.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Get User
@@ -127,14 +133,18 @@ export const userSlice = createSlice({
     },
 
     // Edit User
-    [editUser.pending]: (state) => {
-      state.status = "pending";
-    },
     [editUser.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.user = payload.editUser;
     },
-    [editUser.rejected]: (state) => {
+
+    // Get All Users
+    [getAllUsers.pending]: (state) => {
+      state.status = "pending";
+    },
+    [getAllUsers.fulfilled]: (state) => {
+      state.status = "fulfilled";
+    },
+    [getAllUsers.rejected]: (state) => {
       state.status = "rejected";
     },
   },

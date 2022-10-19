@@ -124,6 +124,23 @@ export const getUserPost = createAsyncThunk(
   }
 );
 
+export const getSinglePost = createAsyncThunk(
+  "post/getSinglePost",
+  async ({ postId }, { rejectWithValue }) => {
+    try {
+      const { data, status } = await axios({
+        method: "GET",
+        url: `/api/posts/${postId}`,
+      });
+      if (status === 200) {
+        return { getSinglePost: data.post };
+      }
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
 const initialState = {
   posts: [],
   status: "idle",
@@ -152,90 +169,41 @@ export const postSlice = createSlice({
     },
 
     // Create Post
-    [createPost.pending]: (state) => {
-      state.status = "pending";
-    },
     [createPost.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.posts = payload.createPost;
-    },
-    [createPost.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Edit Post
-    [editPost.pending]: (state) => {
-      state.status = "pending";
-    },
     [editPost.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.posts = payload.editPost;
-    },
-    [editPost.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Delete Post
-    [deletePost.pending]: (state) => {
-      state.status = "pending";
-    },
     [deletePost.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.posts = payload.deletePost;
     },
-    [deletePost.rejected]: (state) => {
-      state.status = "rejected";
-    },
 
-    // Like Post
-    [likeUnlikePost.pending]: (state) => {
-      state.status = "pending";
-    },
+    // Like & Unlike Post
     [likeUnlikePost.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       state.posts = payload.likeUnlikePost;
-    },
-    [likeUnlikePost.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Consume add new comments
-    [addComment.pending]: (state) => {
-      state.status = "pending";
-    },
     [addComment.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
       foundPost.comments = payload.addComment;
     },
-    [addComment.rejected]: (state) => {
-      state.status = "rejected";
-    },
 
     // Consume delete comments
-    [deleteComment.pending]: (state) => {
-      state.status = "pending";
-    },
     [deleteComment.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
       foundPost.comments = payload.deleteComment;
     },
-    [deleteComment.rejected]: (state) => {
-      state.status = "rejected";
-    },
 
     // Consume edit comments
-    [editComment.pending]: (state) => {
-      state.status = "pending";
-    },
     [editComment.fulfilled]: (state, { payload }) => {
-      state.status = "fulfilled";
       const foundPost = state.posts.find(({ _id }) => _id === payload.postId);
       foundPost.comments = payload.editComment;
-    },
-    [editComment.rejected]: (state) => {
-      state.status = "rejected";
     },
 
     // Get User post
@@ -246,6 +214,17 @@ export const postSlice = createSlice({
       state.status = "fulfilled";
     },
     [getUserPost.rejected]: (state) => {
+      state.status = "rejected";
+    },
+
+    // Get single post
+    [getSinglePost.pending]: (state) => {
+      state.status = "pending";
+    },
+    [getSinglePost.fulfilled]: (state) => {
+      state.status = "fulfilled";
+    },
+    [getSinglePost.rejected]: (state) => {
       state.status = "rejected";
     },
   },

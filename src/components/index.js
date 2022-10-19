@@ -15,3 +15,6 @@ export { EditCommentModal } from "./EditCommentModal/EditCommentModal";
 export { ProfileCard } from "./ProfileCard/ProfileCard";
 export { EditProfileModal } from "./EditProfileModal/EditProfileModal";
 export { PostHeader } from "./PostHeader/PostHeader";
+export { Followers } from "./Followers/Followers";
+export { Following } from "./Following/Following";
+export { UserHorizontalCard } from "./UserHorizontalCard/UserHorizontalCard";

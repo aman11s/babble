@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "../../features";
 import { useCustomToast } from "../../hooks";
 import { EditCommentModal } from "../EditCommentModal/EditCommentModal";
+import { useNavigate } from "react-router-dom";
 
 export const CommentCard = ({ comment, singlePost }) => {
   const { avatarURL, firstName, lastName, username, text, _id } = comment;
@@ -25,6 +26,7 @@ export const CommentCard = ({ comment, singlePost }) => {
 
   const dispatch = useDispatch();
   const customToast = useCustomToast();
+  const navigate = useNavigate();
 
   const [menuActive, setMenuActive] = useState(false);
   const [disableComp, setDisableComp] = useState(false);
@@ -64,7 +66,14 @@ export const CommentCard = ({ comment, singlePost }) => {
             alt="user-avatar"
             src={avatarURL}
           />
-          <Box sx={{ pl: 2 }}>
+          <Box
+            onClick={() => navigate(`/profile/${username}`)}
+            sx={{
+              pl: 2,
+              cursor: "pointer",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
             <Typography sx={{ fontWeight: 500 }} variant="body1">
               <Box component="span">{firstName}</Box>{" "}
               <Box component="span">{lastName}</Box>

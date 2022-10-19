@@ -28,7 +28,7 @@ import { useCustomToast } from "../../hooks";
 import { useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 
-export const PostCard = ({ post }) => {
+export const PostCard = ({ post, singlePost }) => {
   const {
     _id,
     avatarURL,
@@ -124,7 +124,14 @@ export const PostCard = ({ post }) => {
             alt="user-avatar"
             src={isMyPost ? user.avatarURL : avatarURL}
           />
-          <Box sx={{ pl: 2 }}>
+          <Box
+            onClick={() => navigate(`/profile/${username}`)}
+            sx={{
+              pl: 2,
+              cursor: "pointer",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
             <Typography sx={{ fontWeight: 550 }} variant="body1">
               <Box component="span">{firstName}</Box>{" "}
               <Box component="span">{lastName}</Box>
@@ -148,9 +155,14 @@ export const PostCard = ({ post }) => {
                 >
                   <MenuList>
                     <MenuItem onClick={editPostModalHandler}>Edit</MenuItem>
-                    <MenuItem onClick={deletePostHandler} sx={{ color: "red" }}>
-                      Delete
-                    </MenuItem>
+                    {!singlePost && (
+                      <MenuItem
+                        onClick={deletePostHandler}
+                        sx={{ color: "red" }}
+                      >
+                        Delete
+                      </MenuItem>
+                    )}
                   </MenuList>
                 </Paper>
               )}
